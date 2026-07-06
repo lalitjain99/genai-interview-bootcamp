@@ -1,55 +1,329 @@
-Perceptron Formula
-z=Wx+b
+# 🧠 Lecture 1 - Perceptron (Revision)
 
+> **Goal:** Understand the building block of every Neural Network.
+
+---
+
+## 📌 One Line Summary
+
+> A **Perceptron** is the simplest neural network that computes a weighted sum of inputs, adds a bias, applies an activation function, and produces a prediction.
+
+---
+
+# 🏗️ Architecture
+
+```mermaid
+flowchart LR
+
+A[Input Features] --> B["Weighted Sum (Wx + b)"]
+B --> C["Activation Function"]
+C --> D["Prediction"]
+```
+
+---
+
+# 🧮 Mathematical Formula
+
+### Weighted Sum
+
+```text
+z = W₁X₁ + W₂X₂ + ... + WₙXₙ + b
+```
+
+or
+
+```text
+z = Wx + b
+```
+
+### Prediction
+
+```text
+ŷ = f(z)
+```
+
+where
+
+- `W` → Weights
+- `X` → Input Features
+- `b` → Bias
+- `f()` → Activation Function
+
+---
+
+# ⚙️ Components
+
+| Component | Purpose |
+|-----------|----------|
+| Input | Features given to the model |
+| Weight | Determines direction and magnitude of each feature's influence |
+| Bias | Allows the decision boundary to shift away from the origin |
+| Weighted Sum | Linear combination of inputs |
+| Activation Function | Converts weighted sum into prediction |
+
+---
+
+# 🎯 What does a Weight represent?
+
+A weight determines:
+
+- Direction of influence
+- Magnitude of influence
+
+Positive Weight
+
+```text
+Feature ↑
+      ↓
+Prediction ↑
+```
+
+Negative Weight
+
+```text
+Feature ↑
+      ↓
+Prediction ↓
+```
+
+Large magnitude means the feature has a stronger influence.
+
+---
+
+# 🎯 Why do we need Bias?
+
+Without bias
+
+```text
+Decision Boundary
+
+Always passes through origin
+```
+
+Bias allows
+
+```text
+Decision Boundary
+
+Can move anywhere
+```
+
+Without bias, many simple relationships cannot be learned.
+
+---
+
+# ⚡ Activation Function
+
+Perceptron uses the **Step Function**
+
+```text
+if z > 0
+    output = 1
+else
+    output = 0
+```
+
+Purpose:
+
+Convert a continuous value into a binary decision.
+
+---
+
+# 🚫 Limitations
+
+A perceptron **cannot**:
+
+- Learn non-linear relationships
+- Solve XOR
+- Recognize images
+- Understand language
+- Learn using Gradient Descent (Step Function is non-differentiable)
+
+---
+
+# ❓ Why is Perceptron still Linear?
+
+Although the Step Function looks non-linear,
+
+the weighted sum
+
+```text
+z = Wx + b
+```
+
+creates only **one linear decision boundary (hyperplane)**.
+
+Therefore,
+
+adding a Step Function **does not increase expressive power**.
+
+---
+
+# 💡 Representation Learning
+
+Traditional Machine Learning
+
+```text
+Raw Data
+    │
+    ▼
+Feature Engineering (Human)
+    │
+    ▼
+Machine Learning Model
+```
+
+Deep Learning
+
+```text
+Raw Data
+    │
+    ▼
+Neural Network
+    │
+    ▼
+Learns Features Automatically
+    │
+    ▼
 Prediction
+```
 
-y=f(z)
-Weight
+This automatic feature extraction is called **Representation Learning**.
 
-Controls
+---
 
-Direction
+# 🤖 Connection to GPT
 
-Strength
+Every neuron inside GPT still performs the same basic computation.
 
-Bias
+| Perceptron | GPT |
+|------------|-----|
+| Input | Token Embeddings |
+| Weight | Weight Matrix |
+| Bias | Bias Vector |
+| Step Function | GELU |
+| Output | Hidden Representation |
 
-Shifts
+The idea is identical.
 
-Decision Boundary
+Only the activation function has changed.
 
-Activation
+---
 
-Step Function
+# 📝 Interview Cheat Sheet
 
-Binary Output
+### Q1. Why can't Linear Regression recognize faces?
 
-Perceptron
+Because it learns only linear relationships and cannot automatically extract complex features from raw pixels.
 
-Still
+---
 
-Linear
+### Q2. What is Representation Learning?
 
-Cannot Solve
-XOR
-Images
-NLP
-Interview Keywords
+The ability of a neural network to automatically learn useful features from raw input data.
 
-Representation Learning
+---
 
-Linear Combination
+### Q3. Why is Bias important?
 
-Decision Boundary
+Bias shifts the decision boundary away from the origin, allowing the model to learn a wider range of functions.
 
-Hyperplane
+---
 
-Weights
+### Q4. Why is Perceptron still linear?
 
-Bias
+Because its weighted sum is linear and the Step Function only thresholds the output without creating complex decision boundaries.
 
-Activation
+---
 
-One-Line Summary
+### Q5. Can a Perceptron solve XOR?
 
-Perceptron is the first neural network model that combines weighted inputs and bias to make a binary decision, but it remains a linear classifier because it lacks nonlinear trainable activations.
+No.
+
+XOR is not linearly separable and requires multiple decision boundaries.
+
+---
+
+# ⚠️ Common Interview Mistakes
+
+❌ "Weights represent importance."
+
+✅ Better answer:
+
+> Weights determine both the **direction** (positive/negative) and **magnitude** of each feature's influence on the prediction.
+
+---
+
+❌ "Bias just shifts the graph."
+
+✅ Better answer:
+
+> Without bias, every decision boundary must pass through the origin, making many simple functions impossible to learn.
+
+---
+
+❌ "Perceptron is non-linear because it uses Step Function."
+
+✅ Better answer:
+
+> The Step Function only thresholds the output. The decision boundary is still a single hyperplane, so the perceptron remains a linear classifier.
+
+---
+
+# 🧩 First-Principles "Why?" Chain
+
+```text
+Why can't Linear Regression recognize faces?
+            │
+            ▼
+Because faces contain complex non-linear relationships.
+            │
+            ▼
+Why?
+            │
+            ▼
+Pixels alone are not meaningful features.
+            │
+            ▼
+How do we solve that?
+            │
+            ▼
+Neural Networks learn features automatically.
+            │
+            ▼
+What is the simplest Neural Network?
+            │
+            ▼
+Perceptron.
+            │
+            ▼
+Why isn't Perceptron enough?
+            │
+            ▼
+Because it is still a linear classifier.
+```
+
+---
+
+# 📚 Key Takeaways
+
+- Perceptron is the foundation of all neural networks.
+- It performs a weighted sum followed by an activation function.
+- It introduced the concepts of weights, bias and activation.
+- It is still a linear classifier.
+- It cannot solve non-linear problems like XOR.
+- Modern Deep Learning builds on the same idea using differentiable activation functions and multiple hidden layers.
+
+---
+
+# 🚀 Next Lecture
+
+➡️ Multi-Layer Neural Networks
+
+Topics:
+
+- Hidden Layers
+- Why Multiple Layers?
+- XOR Problem
+- Expressive Power
+- Universal Approximation
