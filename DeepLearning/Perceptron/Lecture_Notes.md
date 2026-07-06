@@ -1,270 +1,214 @@
-Lecture 1 : Perceptron — The Birth of Neural Networks
-Learning Objectives
+# Lecture 1: Perceptron — The Birth of Neural Networks
+
+## 📚 Learning Objectives
 
 By the end of this lecture, you should be able to answer:
 
-Why Linear Regression cannot solve AI problems.
-Why Feature Engineering became the bottleneck.
-What is Representation Learning.
-What is a Perceptron.
-Components of a Perceptron.
-Why Perceptron is still linear.
-Why Hidden Layers are required.
-Why Deep Learning started.
-Historical Motivation
+- ✅ Why Linear Regression cannot solve AI problems
+- ✅ Why Feature Engineering became the bottleneck
+- ✅ What is Representation Learning
+- ✅ What is a Perceptron
+- ✅ Components of a Perceptron
+- ✅ Why Perceptron is still linear
+- ✅ Why Hidden Layers are required
+- ✅ Why Deep Learning started
 
-Before Deep Learning,
+---
 
-Machine Learning looked like this:
+## 🏛️ Historical Motivation
 
+### The Pre-Deep Learning Era
+
+Before Deep Learning, Machine Learning looked like this:
+
+```
 Raw Data
-
-↓
-
+    ↓
 Feature Engineering (Human)
-
-↓
-
+    ↓
 Linear Model
-
-↓
-
+    ↓
 Prediction
+```
 
-Example
+### Example: Face Recognition
 
-Face Recognition
+**Manual Feature Extraction:**
+- Nose Length
+- Eye Distance
+- Skin Color
+- Face Width
 
-Engineer manually extracts
+**Then apply:**
+- Linear Regression
+- Decision Tree
+- SVM
+- etc.
 
-Nose Length
-Eye Distance
-Skin Color
-Face Width
+### The Problem ❌
 
-Then
+**Human has to decide what features matter.**
 
-Linear Regression
+This became the bottleneck!
 
-Decision Tree
+---
 
-SVM
+## 🧠 Representation Learning
 
-etc.
+Deep Learning changed everything by automating feature discovery.
 
-Problem?
+### Before Deep Learning
+```
+Raw Data → Human → Features → Model → Prediction
+```
 
-Human has to decide what features matter.
+### After Deep Learning (Deep Learning Approach)
+```
+Raw Data → Neural Network → Features (Automatically Learned) → Prediction
+```
 
-Representation Learning
+**The network itself discovers useful features.**
 
-Deep Learning changed everything.
+### Key Insight
+This automatic process is called **Representation Learning**
 
-Instead of
+---
 
-Human
+## 🔢 Mathematical Model
 
-↓
+### Perceptron Computation
 
-Features
+The perceptron computes a weighted sum of inputs:
 
-↓
+$$z = w_1x_1 + w_2x_2 + \cdots + w_nx_n + b$$
 
-Model
+Where:
+- **x₁, x₂, ..., xₙ** = Input features
+- **w₁, w₂, ..., wₙ** = Weights
+- **b** = Bias term
 
-We now have
+### Activation Function
 
-Raw Data
+Then applies a Step Function:
 
-↓
+$$f(z) = \begin{cases} 1 & \text{if } z > 0 \\ 0 & \text{if } z \leq 0 \end{cases}$$
 
-Neural Network
+### Output
 
-↓
+- **0 or 1** (Binary Classification)
 
-Features (Automatically Learned)
+---
 
-↓
+## ⚙️ Components of a Perceptron
 
-Prediction
-
-The network itself discovers useful features.
-
-This is called
-
-Representation Learning
-
-Mathematical Model
-
-Perceptron computes
-
-z=w
-1
-	​
-
-x
-1
-	​
-
-+w
-2
-	​
-
-x
-2
-	​
-
-+⋯+w
-n
-	​
-
-x
-n
-	​
-
-+b
-
-Then
-
-Step Function
-
-f(z)={
-1
-0
-	​
-
-z>0
-z≤0
-	​
-
-
-Output
-
-0 or 1
-
-Components
-
+```
 Input
-
-↓
-
-Weights
-
-↓
-
+  ↓
+Weights (Scaling)
+  ↓
 Weighted Sum
+  ↓
+Bias (Shifting)
+  ↓
+Activation Function (Step)
+  ↓
+Prediction (0 or 1)
+```
 
-↓
+---
 
-Bias
+## 📊 Understanding Components
 
-↓
+### Weights
 
-Activation
+Weights determine:
+- **Direction of influence** (positive or negative)
+- **Magnitude of influence** (how much it matters)
 
-↓
+#### Positive Weight
+```
+Increase feature → Increase output
+```
 
-Prediction
+#### Negative Weight
+```
+Increase feature → Decrease output
+```
 
-Weight
+### Bias
 
-Weight determines
+**Without bias:** Every decision boundary passes through the origin.
 
-Direction of influence
-Magnitude of influence
+**With bias:** Decision boundary can shift anywhere.
 
-Positive Weight
+#### Importance
+Without bias, many simple functions become impossible to learn.
 
-Increase feature
+### Activation Function
 
-↓
+**Perceptron uses:** Step Function
 
-Increase output
+**Purpose:**
+```
+Convert continuous weighted sum → Binary Decision
+```
 
-Negative Weight
+---
 
-Increase feature
+## ⚠️ Why Perceptron is Still Linear
 
-↓
+Even though the step function looks nonlinear, the **decision boundary remains a single hyperplane**.
 
-Decrease output
+### Limitations
+Therefore, it **cannot solve:**
+- ❌ XOR (Exclusive OR)
+- ❌ Circular patterns
+- ❌ Complex images
+- ❌ Natural language
+- ❌ And much more...
 
-Bias
+---
 
-Without bias
+## 🚫 Key Limitations
 
-Every decision boundary passes through origin.
+| Issue | Impact |
+|-------|--------|
+| ❌ Needs Feature Engineering | Humans still required |
+| ❌ Linear Decision Boundary | Too simple for real problems |
+| ❌ Cannot solve XOR | Proves limitation |
+| ❌ Step Function not differentiable | Cannot use calculus |
+| ❌ Cannot train using Gradient Descent | Learning algorithm unavailable |
 
-Bias allows
+---
 
-Decision Boundary
+## 💡 Key Takeaways
 
-to shift anywhere.
+### What Perceptron Introduced
 
-Without Bias
+The perceptron introduced three fundamental concepts:
 
-Many simple functions become impossible to learn.
+1. **Weights** - Learnable parameters
+2. **Bias** - Flexible decision boundaries
+3. **Activation Functions** - Nonlinear transformations
 
-Activation
+### Legacy
 
-Perceptron uses
+These three ideas **still exist inside modern neural networks** (including GPT).
 
-Step Function
+**The only difference:** The activation function changed from Step Function to smoother functions like ReLU, GELU, etc.
 
-Purpose
+---
 
-Convert continuous weighted sum
+## 📝 Summary
 
-↓
+| Aspect | Details |
+|--------|---------|
+| **Year** | 1958 (Frank Rosenblatt) |
+| **Problem Solved** | Simple linear classification |
+| **Key Innovation** | Automatic weight learning |
+| **Main Limitation** | Linear decision boundaries |
+| **Next Step** | Multi-layer networks needed |
 
-Binary Decision
+---
 
-Why Perceptron is still Linear
-
-Even though
-
-Step Function
-
-looks nonlinear,
-
-Decision Boundary remains
-
-One Hyperplane
-
-Therefore
-
-Cannot solve
-
-XOR
-
-Circles
-
-Complex Images
-
-Language
-
-etc.
-
-Limitations
-
-❌ Needs Feature Engineering
-
-❌ Linear Decision Boundary
-
-❌ Cannot solve XOR
-
-❌ Step Function not differentiable
-
-❌ Cannot train using Gradient Descent
-
-Key Takeaways
-
-Perceptron introduced
-
-Weights
-Bias
-Activation
-
-These ideas still exist inside GPT today.
-
-Only activation function changed.
+**Next Lecture:** Multi Layer Neural Networks - Adding Hidden Layers
