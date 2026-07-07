@@ -40,7 +40,7 @@ Wx+b
 
 No matter how many linear layers we stack, the entire network remains equivalent to a single linear layer.
 
-Activation functions introduce non-linearity, enabling neural networks to learn complex relationships.
+Activation functions introduce **non-linearity, enabling neural networks to learn complex relationships**.
 
 ---
 
@@ -52,7 +52,7 @@ Without activation functions, the Feed Forward Networks become purely linear.
 
 Attention alone still introduces some non-linearity through Softmax, but the expressive power of the model drops significantly.
 
-The network would lose much of its ability to learn hierarchical feature representations, leading to a substantial decrease in performance.
+**The network would lose much of its ability to learn hierarchical feature representations, leading to a substantial decrease in performance.**
 
 ---
 
@@ -451,3 +451,422 @@ Q4: How do Attention, GELU, and Residual Connections collectively improve gradie
 Those integrative questions are common in Staff/Principal interviews, and adding them to every module will make your repository unique rather than just another collection of notes.
 
 ```
+# Interview Questions — Softmax & Cross Entropy
+
+This document covers some of the most common interview questions related to Softmax and Cross Entropy.
+
+The goal is not to memorize answers, but to understand the intuition behind them.
+
+---
+
+# Q1. What problem does Softmax solve?
+
+Softmax converts the raw outputs of the final layer (called **logits**) into a valid probability distribution.
+
+It guarantees that:
+
+- Every probability is positive.
+- Every probability lies between 0 and 1.
+- The sum of all probabilities equals 1.
+
+This makes the outputs interpretable as confidence scores for each class.
+
+---
+
+# Q2. What are logits?
+
+Logits are the raw scores produced by the final linear layer of a neural network before applying Softmax.
+
+Mathematically,
+
+```
+z = Wx + b
+```
+
+These scores are **not probabilities**.
+
+They can be:
+
+- Positive
+- Negative
+- Larger than 1
+- Any real number
+
+Softmax converts these logits into probabilities.
+
+---
+
+# Q3. Why can't we use ReLU or GELU instead of Softmax?
+
+ReLU and GELU process each neuron independently.
+
+They do not make the output neurons compete with one another.
+
+As a result:
+
+- Outputs do not sum to 1.
+- Values cannot be interpreted as probabilities.
+
+Softmax processes the **entire output vector together**, producing a probability distribution.
+
+---
+
+# Q4. Why does the output layer have one neuron per class?
+
+Each output neuron represents one possible class.
+
+For example,
+
+Image Classification
+
+```
+Dog
+
+Cat
+
+Horse
+```
+
+The output layer contains three neurons.
+
+Each neuron produces one logit representing how strongly the model believes the input belongs to that class.
+
+Softmax then converts all logits into probabilities.
+
+---
+
+# Q5. Why do we use the exponential function in Softmax?
+
+The exponential function has several useful properties.
+
+It:
+
+- Always produces positive values.
+- Preserves ordering.
+- Magnifies confidence differences.
+
+These properties make it ideal for constructing probability distributions.
+
+---
+
+# Q6. Why can't we simply divide logits by their sum?
+
+Suppose the logits are
+
+```
+Dog = -2
+
+Cat = 4
+
+Horse = 1
+```
+
+Simple normalization produces
+
+```
+-2 / 3
+```
+
+which is a negative probability.
+
+Probabilities cannot be negative.
+
+Exponentials solve this problem because
+
+```
+eˣ > 0
+```
+
+for every real number.
+
+---
+
+# Q7. Why do all Softmax probabilities sum to one?
+
+After exponentiating every logit,
+
+Softmax divides each exponential by the total sum.
+
+Therefore,
+
+```
+P₁ + P₂ + ... + Pₙ = 1
+```
+
+This satisfies the definition of a probability distribution.
+
+---
+
+# Q8. Why do frameworks compute Softmax(x − max(x))?
+
+Exponentials grow extremely quickly.
+
+Large logits can overflow floating-point numbers.
+
+Subtracting the maximum logit keeps the exponentials numerically stable while producing exactly the same probability distribution.
+
+---
+
+# Q9. What problem does Cross Entropy solve?
+
+Softmax tells us what the model believes.
+
+Cross Entropy tells us **how wrong those beliefs are**.
+
+It measures how close the predicted probability distribution is to the true distribution.
+
+---
+
+# Q10. Why can't accuracy be used as the loss function?
+
+Accuracy only checks whether the prediction is correct.
+
+It completely ignores confidence.
+
+For example,
+
+Prediction A
+
+```
+Cat = 99%
+```
+
+Prediction B
+
+```
+Cat = 51%
+```
+
+Both predictions are correct.
+
+Accuracy treats them equally.
+
+Cross Entropy rewards Prediction A because it is much more confident.
+
+---
+
+# Q11. What are the two distributions compared in Cross Entropy?
+
+Cross Entropy compares:
+
+**True Distribution**
+
+and
+
+**Predicted Distribution**
+
+Example
+
+```
+True
+
+Dog = 0
+
+Cat = 1
+
+Horse = 0
+```
+
+```
+Predicted
+
+Dog = 0.02
+
+Cat = 0.97
+
+Horse = 0.01
+```
+
+The closer these distributions are,
+
+the lower the loss.
+
+---
+
+# Q12. What is one-hot encoding?
+
+One-hot encoding represents the correct class using a probability distribution.
+
+If Cat is correct,
+
+```
+Dog = 0
+
+Cat = 1
+
+Horse = 0
+```
+
+Exactly one position contains a 1.
+
+Every other position contains 0.
+
+---
+
+# Q13. Why does only the correct class contribute to the loss?
+
+Because the true distribution is one-hot encoded.
+
+Only the correct class has a value of 1.
+
+All other classes have a value of 0.
+
+Therefore, all other terms vanish in the Cross Entropy equation.
+
+This simplifies the loss to
+
+```
+Loss = -log(P(correct class))
+```
+
+---
+
+# Q14. Why does Cross Entropy punish confident mistakes more?
+
+Suppose the correct answer is Cat.
+
+Prediction A
+
+```
+Cat = 0.95
+```
+
+Very small loss.
+
+Prediction B
+
+```
+Cat = 0.02
+```
+
+Huge loss.
+
+The negative logarithm increases rapidly as the probability assigned to the correct class approaches zero.
+
+This strongly discourages confident mistakes.
+
+---
+
+# Q15. Why are Softmax and Cross Entropy almost always used together?
+
+Softmax converts logits into probabilities.
+
+Cross Entropy evaluates those probabilities.
+
+Without Softmax,
+
+Cross Entropy has no probability distribution to compare.
+
+Without Cross Entropy,
+
+Softmax provides probabilities but no learning signal.
+
+Together they enable effective classification learning.
+
+---
+
+# Q16. How does GPT use Softmax and Cross Entropy?
+
+During training,
+
+GPT predicts the probability of every token in its vocabulary.
+
+Softmax converts the logits into probabilities.
+
+Cross Entropy compares these probabilities with the actual next token.
+
+Gradient Descent then updates the weights to increase the probability of the correct token and decrease the probabilities of incorrect tokens.
+
+---
+
+# Q17. Explain Softmax in one sentence.
+
+Softmax converts the raw scores (logits) produced by a neural network into a probability distribution over all possible classes.
+
+---
+
+# Q18. Explain Cross Entropy in one sentence.
+
+Cross Entropy measures how different the model's predicted probability distribution is from the true probability distribution.
+
+---
+
+# Q19. Explain the complete classification pipeline.
+
+```
+Input
+
+↓
+
+Neural Network
+
+↓
+
+Logits
+
+↓
+
+Softmax
+
+↓
+
+Probabilities
+
+↓
+
+Cross Entropy
+
+↓
+
+Loss
+
+↓
+
+Gradient Descent
+
+↓
+
+Updated Weights
+```
+
+This pipeline repeats for every training iteration until the model learns.
+
+---
+
+# Q20. Why is Softmax used only in the output layer?
+
+Softmax creates competition among all output neurons.
+
+Hidden layers are not trying to choose among classes.
+
+Instead, hidden layers learn useful representations of the input.
+
+Therefore, activation functions like ReLU or GELU are used in hidden layers, while Softmax is reserved for the final output layer in multi-class classification.
+
+---
+
+# Final Interview Tip
+
+A common mistake is to define Softmax and Cross Entropy independently.
+
+A stronger interview answer explains how they work together.
+
+Think of the complete pipeline:
+
+```
+Logits
+      ↓
+Softmax
+      ↓
+Probabilities
+      ↓
+Cross Entropy
+      ↓
+Loss
+      ↓
+Gradient Descent
+      ↓
+Weight Update
+```
+
+Interviewers are usually evaluating whether you understand this **entire learning pipeline**, not just individual formulas.
