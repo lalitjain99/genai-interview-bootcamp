@@ -1,9 +1,9 @@
 # Lecture 3 — Activation Functions
-# Part 1: Why Neural Networks Need Activation Functions
+## Part 1: Why Neural Networks Need Activation Functions
 
 ---
 
-# 🎯 Learning Objectives
+## 🎯 Learning Objectives
 
 By the end of this lecture you should be able to answer:
 
@@ -18,7 +18,7 @@ By the end of this lecture you should be able to answer:
 
 ---
 
-# Chapter 1 — The Perceptron Can Calculate, But Can It Decide?
+## Chapter 1 — The Perceptron Can Calculate, But Can It Decide?
 
 Let's continue our story.
 
@@ -32,9 +32,9 @@ It adds a bias.
 
 Finally it computes
 
-\[
+$$
 z = w_1x_1 + w_2x_2 + \cdots + w_nx_n + b
-\]
+$$
 
 Looks impressive.
 
@@ -117,7 +117,7 @@ The neuron still doesn't know what to do with it.
 
 ---
 
-# Chapter 2 — The Missing Piece
+## Chapter 2 — The Missing Piece
 
 Researchers in the late 1950s realized something.
 
@@ -186,7 +186,7 @@ The activation function acts as a **decision maker**.
 
 ---
 
-# Chapter 3 — Learning from Biology
+## Chapter 3 — Learning from Biology
 
 Frank Rosenblatt wasn't trying to invent mathematics.
 
@@ -231,23 +231,23 @@ Researchers copied exactly this behaviour.
 
 ---
 
-# Chapter 4 — The First Activation Function
+## Chapter 4 — The First Activation Function
 
 This gave birth to the **Step Function**.
 
 Mathematically,
 
-\[
+$$
 f(z)=
 \begin{cases}
 1, & z > 0 \\
 0, & z \le 0
 \end{cases}
-\]
+$$
 
 The rule couldn't be simpler.
 
-If the weighted sum is positive,
+### If the weighted sum is positive,
 
 return **1**.
 
@@ -259,7 +259,7 @@ The neuron finally became capable of making a decision.
 
 ---
 
-# Chapter 5 — The Security Guard Analogy
+## Chapter 5 — The Security Guard Analogy
 
 Imagine an office building.
 
@@ -323,7 +323,7 @@ return **0**.
 
 ---
 
-# Chapter 6 — Why Was This Revolutionary?
+## Chapter 6 — Why Was This Revolutionary?
 
 Today,
 
@@ -353,7 +353,7 @@ It marked the birth of Neural Networks.
 
 ---
 
-# Chapter 7 — The Hidden Limitation
+## Chapter 7 — The Hidden Limitation
 
 Everything looked promising.
 
@@ -385,9 +385,9 @@ It **does not** make the underlying model more expressive.
 
 The decision boundary is still
 
-\[
+$$
 Wx + b = 0
-\]
+$$
 
 which is always a straight line (or hyperplane in higher dimensions).
 
@@ -397,7 +397,7 @@ The Step Function cannot create those.
 
 ---
 
-# Chapter 8 — An Even Bigger Problem
+## Chapter 8 — An Even Bigger Problem
 
 Researchers believed
 
@@ -458,7 +458,7 @@ modern Deep Learning becomes impossible.
 
 ---
 
-# Chapter 9 — What Should an Ideal Activation Function Look Like?
+## Chapter 9 — What Should an Ideal Activation Function Look Like?
 
 The failure of the Step Function taught researchers an important lesson.
 
@@ -487,7 +487,7 @@ That evolution shaped the history of Deep Learning.
 
 ---
 
-# 🤖 Engineering Connection
+## 🤖 Engineering Connection
 
 Imagine replacing every GELU activation inside GPT with the Step Function.
 
@@ -507,7 +507,7 @@ This is why differentiable activation functions are one of the foundational requ
 
 ---
 
-# 🎯 Key Takeaways
+## 🎯 Key Takeaways
 
 - The weighted sum produces only a numerical score.
 - Activation functions convert scores into meaningful outputs.
@@ -520,7 +520,7 @@ This is why differentiable activation functions are one of the foundational requ
 
 ---
 
-# 📖 Next Chapter
+## 📖 Next Chapter
 
 The Step Function taught us how neurons make decisions.
 

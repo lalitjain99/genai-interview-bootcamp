@@ -1,9 +1,9 @@
-# Part 2 — Sigmoid
-# The First Trainable Activation Function
+## Part 2 — Sigmoid
+### The First Trainable Activation Function
 
 ---
 
-# 🎯 Learning Objectives
+### 🎯 Learning Objectives
 
 By the end of this chapter you should be able to answer:
 
@@ -17,7 +17,7 @@ By the end of this chapter you should be able to answer:
 
 ---
 
-# Chapter 10 — AI Winter
+## Chapter 10 — AI Winter
 
 The year is now 1969.
 
@@ -51,7 +51,7 @@ The Step Function.
 
 ---
 
-# Chapter 11 — The Problem Wasn't Intelligence
+## Chapter 11 — The Problem Wasn't Intelligence
 
 Let's think carefully.
 
@@ -115,7 +115,7 @@ Neural Networks faced the exact same challenge.
 
 ---
 
-# Chapter 12 — A Tiny Change
+## Chapter 12 — A Tiny Change
 
 Researchers realised something profound.
 
@@ -149,7 +149,7 @@ That single question gave birth to one of the most important ideas in Machine Le
 
 ---
 
-# Chapter 13 — Why Step Function Could Never Learn
+## Chapter 13 — Why Step Function Could Never Learn
 
 Let's look at the graph mentally.
 
@@ -221,7 +221,7 @@ Learning stops.
 
 ---
 
-# Chapter 14 — What Would the Perfect Activation Function Look Like?
+## Chapter 14 — What Would the Perfect Activation Function Look Like?
 
 Researchers now had a wishlist.
 
@@ -245,13 +245,13 @@ Meet the Sigmoid Function.
 
 ---
 
-# Chapter 15 — Enter Sigmoid
+## Chapter 15 — Enter Sigmoid
 
 Mathematically,
 
-\[
+$$
 \sigma(x)=\frac{1}{1+e^{-x}}
-\]
+$$
 
 At first glance,
 
@@ -345,7 +345,7 @@ and
 
 ---
 
-# Chapter 16 — Why Does Sigmoid Look Like a Probability?
+## Chapter 16 — Why Does Sigmoid Look Like a Probability?
 
 This is where many interview candidates get confused.
 
@@ -395,7 +395,7 @@ Binary Classification.
 
 ---
 
-# Chapter 17 — The Biggest Advantage
+## Chapter 17 — The Biggest Advantage
 
 Remember the Step Function?
 
@@ -445,7 +445,7 @@ This was one of the biggest breakthroughs in Deep Learning.
 
 ---
 
-# Chapter 18 — The Hidden Trap
+## Chapter 18 — The Hidden Trap
 
 Researchers celebrated.
 
@@ -497,7 +497,7 @@ Learning almost stops.
 
 This became known as the
 
-# Vanishing Gradient Problem.
+## Vanishing Gradient Problem.
 
 Ironically,
 
@@ -507,35 +507,21 @@ eventually slowed learning in deep networks.
 
 ---
 
-# Chapter 19 — Engineering Perspective
+## Chapter 19 — Engineering Perspective
 
-Suppose GPT had 96 Transformer layers
+Suppose GPT had 96 Transformer layers and every Feed Forward Network used Sigmoid.
 
-and every Feed Forward Network used Sigmoid.
-
-During Backpropagation,
-
-gradients would shrink layer after layer.
+During Backpropagation, gradients would shrink layer after layer.
 
 The earliest layers would barely learn.
 
-Training would become extremely slow,
+Training would become extremely slow, sometimes practically impossible.
 
-sometimes practically impossible.
-
-This is one of the biggest reasons
-
-modern architectures replaced Sigmoid
-
-with ReLU
-
-and later
-
-GELU.
+This is one of the biggest reasons modern architectures replaced Sigmoid with ReLU and later GELU.
 
 ---
 
-# 🎯 Interview Insight
+## 🎯 Interview Insight
 
 If an interviewer asks
 
@@ -547,7 +533,7 @@ A strong answer is
 
 ---
 
-# 🧠 Common Interview Mistakes
+## 🧠 Common Interview Mistakes
 
 ❌ "Sigmoid outputs probabilities."
 
@@ -565,7 +551,7 @@ Better answer
 
 ---
 
-# 📖 Key Takeaways
+## 📖 Key Takeaways
 
 - Step Function could make decisions but couldn't learn.
 - Sigmoid is a smooth approximation of the Step Function.
@@ -578,7 +564,7 @@ Better answer
 
 ---
 
-# 📖 Next Chapter
+## 📖 Next Chapter
 
 Sigmoid solved one problem...
 
