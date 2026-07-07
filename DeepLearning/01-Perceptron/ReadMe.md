@@ -2,7 +2,7 @@
 
 ## Files
 
-- 📖 Lecture
+- 📖 Concepts
 - 📝 Revision
 - 🎤 Interview Questions
 - ✅ Assignment
