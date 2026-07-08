@@ -21,6 +21,26 @@ Each lecture contains five learning artifacts:
 
 ---
 
+# 📍 Current Progress
+
+**Current Module:** Module 1 — Deep Learning Foundations
+
+**Current Topic:** Module 04 — Training Neural Networks
+
+**Next Lecture:** Binary Cross Entropy
+
+---
+
+# Progress Legend
+
+| Symbol | Meaning |
+|--------|---------|
+| ✅ | Completed |
+| 🟨 | In Progress |
+| ⬜ | Not Started |
+
+---
+
 # 🗺️ Course Roadmap
 
 ---
@@ -29,53 +49,170 @@ Each lecture contains five learning artifacts:
 
 > Learn how neural networks work before learning LLMs.
 
-Difficulty : ⭐⭐⭐⭐☆
+**Difficulty:** ⭐⭐⭐⭐☆
 
-Estimated Time : 5-6 Weeks
+**Estimated Time:** 7–8 Weeks
 
-| # | Topic | Status |
-|---|-------|--------|
-| 1 | Perceptron | ✅ |
-| 2 | Hidden Layers & XOR | ✅ |
-| 3 | Activation Functions | ⬜ |
-| 3.1 | Step Function | ⬜ |
-| 3.2 | Sigmoid | ⬜ |
-| 3.3 | Tanh | ⬜ |
-| 3.4 | ReLU | ⬜ |
-| 3.5 | Leaky ReLU | ⬜ |
-| 3.6 | GELU | ⬜ |
-| 3.7 | Softmax | ⬜ |
-| 4 | Loss Functions | ⬜ |
-| 4.1 | MSE | ⬜ |
-| 4.2 | MAE | ⬜ |
-| 4.3 | Cross Entropy | ⬜ |
-| 4.4 | Binary Cross Entropy | ⬜ |
-| 4.5 | KL Divergence | ⬜ |
-| 4.6 | Negative Log Likelihood | ⬜ |
-| 5 | Gradient Descent | ⬜ |
-| 5.1 | Derivatives | ⬜ |
-| 5.2 | Gradient | ⬜ |
-| 5.3 | Learning Rate | ⬜ |
-| 5.4 | Batch Gradient Descent | ⬜ |
-| 5.5 | Stochastic Gradient Descent | ⬜ |
-| 5.6 | Mini Batch Gradient Descent | ⬜ |
-| 6 | Backpropagation | ⬜ |
-| 6.1 | Chain Rule | ⬜ |
-| 6.2 | Computational Graph | ⬜ |
-| 6.3 | Weight Updates | ⬜ |
-| 7 | Optimizers | ⬜ |
-| 7.1 | Momentum | ⬜ |
-| 7.2 | AdaGrad | ⬜ |
-| 7.3 | RMSProp | ⬜ |
-| 7.4 | Adam | ⬜ |
-| 7.5 | AdamW | ⬜ |
-| 8 | Weight Initialization | ⬜ |
-| 8.1 | Xavier Initialization | ⬜ |
-| 8.2 | He Initialization | ⬜ |
-| 9 | Batch Normalization | ⬜ |
-| 10 | Dropout | ⬜ |
-| 11 | Residual Connections | ⬜ |
-| 12 | Universal Approximation Theorem | ⬜ |
+---
+
+## 1. Perceptron ✅
+
+<details open>
+<summary><strong>Lectures</strong></summary>
+
+| Lecture | Status |
+|---------|--------|
+| Perceptron | ✅ |
+
+</details>
+
+---
+
+## 2. Hidden Layers & XOR ✅
+
+<details open>
+<summary><strong>Lectures</strong></summary>
+
+| Lecture | Status |
+|---------|--------|
+| Hidden Layers & XOR | ✅ |
+
+</details>
+
+---
+
+## 3. Activation Functions ✅
+
+<details open>
+<summary><strong>7 Lectures</strong></summary>
+
+| Lecture | Status |
+|---------|--------|
+| Step Function | ✅ |
+| Sigmoid | ✅ |
+| Tanh | ✅ |
+| ReLU | ✅ |
+| Leaky ReLU | ✅ |
+| GELU | ✅ |
+| Softmax | ✅ |
+
+</details>
+
+---
+
+## 4. Training Neural Networks 🟨
+
+<details open>
+<summary><strong>21 Planned Lectures</strong></summary>
+
+| Lecture | Status |
+|---------|--------|
+| 01. How Does a Neural Network Learn? | ✅ |
+| 02. Loss Functions | ✅ |
+| 03. Mean Squared Error (MSE) | ✅ |
+| 04. Mean Absolute Error (MAE) | ✅ |
+| 05. Cross Entropy | ✅ |
+| 06. Why Cross Entropy Uses Log | ✅ |
+| 07. Binary Cross Entropy | ⬜ |
+| 08. Negative Log Likelihood | ⬜ |
+| 09. KL Divergence | ⬜ |
+| 10. Gradient Descent | ✅ |
+| 11. The Idea of Derivatives | ⬜ |
+| 12. Partial Derivatives | ⬜ |
+| 13. Gradient Vector | ⬜ |
+| 14. Learning Rate | ⬜ |
+| 15. Batch Gradient Descent | ⬜ |
+| 16. Stochastic Gradient Descent | ⬜ |
+| 17. Mini Batch Gradient Descent | ⬜ |
+| 18. Backpropagation | ⬜ |
+| 19. Computational Graph | ⬜ |
+| 20. Chain Rule | ⬜ |
+| 21. Training Pipeline | ⬜ |
+
+</details>
+
+---
+
+## 5. Optimizers ⬜
+
+<details>
+<summary><strong>5 Planned Lectures</strong></summary>
+
+| Lecture | Status |
+|---------|--------|
+| Momentum | ⬜ |
+| AdaGrad | ⬜ |
+| RMSProp | ⬜ |
+| Adam | ⬜ |
+| AdamW | ⬜ |
+
+</details>
+
+---
+
+## 6. Weight Initialization ⬜
+
+<details>
+<summary><strong>2 Planned Lectures</strong></summary>
+
+| Lecture | Status |
+|---------|--------|
+| Xavier Initialization | ⬜ |
+| He Initialization | ⬜ |
+
+</details>
+
+---
+
+## 7. Batch Normalization ⬜
+
+<details>
+<summary><strong>Lecture</strong></summary>
+
+| Lecture | Status |
+|---------|--------|
+| Batch Normalization | ⬜ |
+
+</details>
+
+---
+
+## 8. Dropout ⬜
+
+<details>
+<summary><strong>Lecture</strong></summary>
+
+| Lecture | Status |
+|---------|--------|
+| Dropout | ⬜ |
+
+</details>
+
+---
+
+## 9. Residual Connections ⬜
+
+<details>
+<summary><strong>Lecture</strong></summary>
+
+| Lecture | Status |
+|---------|--------|
+| Residual Connections | ⬜ |
+
+</details>
+
+---
+
+## 10. Universal Approximation Theorem ⬜
+
+<details>
+<summary><strong>Lecture</strong></summary>
+
+| Lecture | Status |
+|---------|--------|
+| Universal Approximation Theorem | ⬜ |
+
+</details>
 
 ---
 
