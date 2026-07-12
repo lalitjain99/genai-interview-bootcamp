@@ -733,6 +733,7 @@ Only after understanding the complete system do they select the most appropriate
 
 This mindset distinguishes an engineer who understands algorithms from one who can design and operate large-scale AI systems.
 
+
 # Key Takeaways
 
 - Batch Gradient Descent computes gradients using the **entire dataset**.
