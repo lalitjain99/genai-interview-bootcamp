@@ -442,17 +442,7 @@ The Learning Rate scales the Gradient,
 
 allowing us to control how aggressively the model updates its parameters while maintaining stable learning.
 
----
 
-# Key Takeaways
-
-- The Gradient tells us **which direction** to move.
-- The Learning Rate tells us **how far** to move.
-- A very small Learning Rate leads to slow convergence.
-- A very large Learning Rate causes unstable training and overshooting.
-- The Learning Rate scales the Gradient without changing its direction.
-- Choosing an appropriate Learning Rate is one of the most important decisions in training a neural network.
-- Modern optimizers improve learning by adapting the Learning Rate automatically.
 
 
 ## Engineer's Insight
