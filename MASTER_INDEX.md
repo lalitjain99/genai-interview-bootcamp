@@ -1,40 +1,81 @@
 # 🚀 GenAI Interview Bootcamp
-### From Software Engineer → Senior/Lead GenAI Engineer
+## From Software Engineer → Senior / Staff / Lead GenAI Engineer
 
 ---
 
 # 📖 About this Repository
 
-This repository is a complete roadmap for preparing **Senior / Staff / Lead GenAI interviews**.
+This repository is a complete roadmap for preparing **Senior, Staff, Lead, and AI Architect interviews**.
 
-The objective is **not** to memorize interview questions.
+Unlike traditional interview preparation, this bootcamp is built entirely from **first principles**.
 
-Instead, every topic is learned from **first principles**, progressing from Deep Learning fundamentals all the way to designing and deploying production-grade GenAI systems.
+Instead of memorizing algorithms or interview questions, every topic is introduced as an engineering problem, followed by the reasoning that naturally leads to the mathematical solution.
 
-Each lecture contains five learning artifacts:
+The goal is simple:
 
-- 📘 Lecture.md → Story-driven learning from first principles
-- 📝 Revision.md → 5-minute revision notes
-- 🎤 Interview.md → Interview questions & discussions
-- 💡 Assignment.md → Deep thinking & problem solving
-- 💻 Code.ipynb → Hands-on implementation
+> **Don't memorize AI. Learn to think like the engineers who invented it.**
 
 ---
 
-# 📍 Current Progress
+# 🧠 Learning Philosophy
 
-**Current Module:** Module 1 — Deep Learning Foundations
+Every lecture follows the same philosophy.
 
-**Current Topic:** Module 04 — Training Neural Networks
+```
+Problem
+      ↓
+Understand Existing Solution
+      ↓
+Identify Its Limitations
+      ↓
+Think Like an Engineer
+      ↓
+Derive the Mathematics
+      ↓
+Build Intuition
+      ↓
+Engineering Q&A
+      ↓
+Staff Engineer Challenge
+```
 
-**Next Lecture:** Binary Cross Entropy
+This approach develops intuition instead of memorization.
+
+---
+
+# 📚 Standard Lecture Structure
+
+Every lecture follows the same structure.
+
+| File | Purpose |
+|------|----------|
+| 📘 01_Lecture.md | Story-driven learning from first principles |
+| 📝 02_Revision.md | 5-minute revision |
+| 🎤 03_Interview.md | Engineering & Staff Interview Q&A |
+| 💡 04_Assignment.md | Scenario-based reasoning |
+| ⚡ 05_CheatSheet.md | One-page interview revision |
+| 🚫 06_Common_Mistakes.md | Common misconceptions |
+| 💻 Code.ipynb *(Optional)* | Hands-on implementation |
+
+---
+
+# 📊 Repository Statistics
+
+| Metric | Status |
+|---------|---------|
+| Current Module | Module 1 |
+| Current Topic | Optimizers |
+| Completed Optimizers | **3 / 5** |
+| Current Optimizer | RMSProp ✅ |
+| Next Lecture | Adam |
+| Course Status | 🟨 In Progress |
 
 ---
 
 # Progress Legend
 
 | Symbol | Meaning |
-|--------|---------|
+|---------|---------|
 | ✅ | Completed |
 | 🟨 | In Progress |
 | ⬜ | Not Started |
@@ -47,44 +88,31 @@ Each lecture contains five learning artifacts:
 
 # Module 1 — Deep Learning Foundations
 
-> Learn how neural networks work before learning LLMs.
+> Learn Deep Learning from first principles before studying LLMs.
 
 **Difficulty:** ⭐⭐⭐⭐☆
 
-**Estimated Time:** 7–8 Weeks
+**Estimated Time:** 8–10 Weeks
 
 ---
 
 ## 1. Perceptron ✅
 
-<details open>
-<summary><strong>Lectures</strong></summary>
-
 | Lecture | Status |
 |---------|--------|
 | Perceptron | ✅ |
-
-</details>
 
 ---
 
 ## 2. Hidden Layers & XOR ✅
 
-<details open>
-<summary><strong>Lectures</strong></summary>
-
 | Lecture | Status |
 |---------|--------|
 | Hidden Layers & XOR | ✅ |
 
-</details>
-
 ---
 
 ## 3. Activation Functions ✅
-
-<details open>
-<summary><strong>7 Lectures</strong></summary>
 
 | Lecture | Status |
 |---------|--------|
@@ -96,123 +124,90 @@ Each lecture contains five learning artifacts:
 | GELU | ✅ |
 | Softmax | ✅ |
 
-</details>
-
 ---
 
-## 4. Training Neural Networks 🟨
+## 4. Training Neural Networks ✅
 
-<details open>
-<summary><strong>21 Planned Lectures</strong></summary>
+> **Completed** (Will gradually be migrated to the new six-file lecture structure.)
 
 | Lecture | Status |
 |---------|--------|
-| 01. How Does a Neural Network Learn? | ✅ |
-| 02. Loss Functions | ✅ |
-| 03. Mean Squared Error (MSE) | ✅ |
-| 04. Mean Absolute Error (MAE) | ✅ |
-| 05. Cross Entropy | ✅ |
-| 06. Why Cross Entropy Uses Log | ✅ |
-| 07. Binary Cross Entropy | ⬜ |
-| 08. Negative Log Likelihood | ⬜ |
-| 09. KL Divergence | ⬜ |
-| 10. Gradient Descent | ✅ |
-| 11. The Idea of Derivatives | ⬜ |
-| 12. Partial Derivatives | ⬜ |
-| 13. Gradient Vector | ⬜ |
-| 14. Learning Rate | ⬜ |
-| 15. Batch Gradient Descent | ⬜ |
-| 16. Stochastic Gradient Descent | ⬜ |
-| 17. Mini Batch Gradient Descent | ⬜ |
-| 18. Backpropagation | ⬜ |
-| 19. Computational Graph | ⬜ |
-| 20. Chain Rule | ⬜ |
-| 21. Training Pipeline | ⬜ |
-
-</details>
+| How Does a Neural Network Learn? | ✅ |
+| Loss Functions | ✅ |
+| Mean Squared Error | ✅ |
+| Mean Absolute Error | ✅ |
+| Cross Entropy | ✅ |
+| Why Cross Entropy Uses Log | ✅ |
+| Binary Cross Entropy | ✅ |
+| Negative Log Likelihood | ✅ |
+| BCEWithLogitsLoss | ✅ |
+| Gradient Descent | ✅ |
+| The Idea of Derivatives | ✅ |
+| Partial Derivatives | ✅ |
+| Gradient Vector | ✅ |
+| Backpropagation | ✅ |
+| Chain Rule | ✅ |
+| Computational Graph | ✅ |
+| Training Pipeline | ✅ |
 
 ---
 
-## 5. Optimizers ⬜
+## 5. Optimizers 🟨
 
-<details>
-<summary><strong>5 Planned Lectures</strong></summary>
+> Every optimizer is derived from the limitation of the previous optimizer.
 
 | Lecture | Status |
 |---------|--------|
-| Momentum | ⬜ |
-| AdaGrad | ⬜ |
-| RMSProp | ⬜ |
+| Learning Rate | ✅ |
+| Batch Gradient Descent | ✅ |
+| Stochastic Gradient Descent | ✅ |
+| Mini Batch Gradient Descent | ✅ |
+| Momentum | ✅ |
+| AdaGrad | ✅ |
+| RMSProp | ✅ |
 | Adam | ⬜ |
 | AdamW | ⬜ |
-
-</details>
 
 ---
 
 ## 6. Weight Initialization ⬜
-
-<details>
-<summary><strong>2 Planned Lectures</strong></summary>
 
 | Lecture | Status |
 |---------|--------|
 | Xavier Initialization | ⬜ |
 | He Initialization | ⬜ |
 
-</details>
-
 ---
 
 ## 7. Batch Normalization ⬜
-
-<details>
-<summary><strong>Lecture</strong></summary>
 
 | Lecture | Status |
 |---------|--------|
 | Batch Normalization | ⬜ |
 
-</details>
-
 ---
 
 ## 8. Dropout ⬜
-
-<details>
-<summary><strong>Lecture</strong></summary>
 
 | Lecture | Status |
 |---------|--------|
 | Dropout | ⬜ |
 
-</details>
-
 ---
 
 ## 9. Residual Connections ⬜
-
-<details>
-<summary><strong>Lecture</strong></summary>
 
 | Lecture | Status |
 |---------|--------|
 | Residual Connections | ⬜ |
 
-</details>
-
 ---
 
 ## 10. Universal Approximation Theorem ⬜
 
-<details>
-<summary><strong>Lecture</strong></summary>
-
 | Lecture | Status |
 |---------|--------|
 | Universal Approximation Theorem | ⬜ |
-
-</details>
 
 ---
 
@@ -220,197 +215,161 @@ Each lecture contains five learning artifacts:
 
 > Understand why Transformers were invented.
 
-Difficulty : ⭐⭐⭐⭐☆
+**Difficulty:** ⭐⭐⭐⭐☆
 
-Estimated Time : 2 Weeks
+**Estimated Time:** 2 Weeks
 
-| # | Topic | Status |
-|---|-------|--------|
-| 1 | Recurrent Neural Networks (RNN) | ⬜ |
-| 2 | Backpropagation Through Time (BPTT) | ⬜ |
-| 3 | Vanishing & Exploding Gradient | ⬜ |
-| 4 | LSTM | ⬜ |
-| 5 | GRU | ⬜ |
-| 6 | Sequence-to-Sequence Models | ⬜ |
-| 7 | Attention Mechanism | ⬜ |
+- RNN
+- BPTT
+- Vanishing Gradient
+- Exploding Gradient
+- LSTM
+- GRU
+- Seq2Seq
+- Attention Mechanism
+
+Status: ⬜
 
 ---
 
 # Module 3 — Transformer Architecture
 
-> The most important module of the entire bootcamp.
+> The most important Deep Learning module.
 
-Difficulty : ⭐⭐⭐⭐⭐
+**Difficulty:** ⭐⭐⭐⭐⭐
 
-Estimated Time : 6 Weeks
+**Estimated Time:** 6 Weeks
 
-| # | Topic | Status |
-|---|-------|--------|
-| 1 | Why RNNs Failed | ⬜ |
-| 2 | Self Attention | ⬜ |
-| 3 | Query, Key & Value | ⬜ |
-| 4 | Scaled Dot Product Attention | ⬜ |
-| 5 | Multi Head Attention | ⬜ |
-| 6 | Positional Encoding | ⬜ |
-| 7 | Transformer Encoder | ⬜ |
-| 8 | Transformer Decoder | ⬜ |
-| 9 | Masked Self Attention | ⬜ |
-| 10 | Cross Attention | ⬜ |
-| 11 | Feed Forward Network (FFN) | ⬜ |
-| 12 | Residual Connections | ⬜ |
-| 13 | Layer Normalization | ⬜ |
-| 14 | Complete Transformer Architecture | ⬜ |
-| 15 | GPT Architecture | ⬜ |
-| 16 | BERT Architecture | ⬜ |
-| 17 | T5 Architecture | ⬜ |
-| 18 | LLaMA Architecture | ⬜ |
+Topics include:
+
+- Self Attention
+- QKV
+- Multi-Head Attention
+- Positional Encoding
+- Encoder
+- Decoder
+- GPT
+- BERT
+- T5
+- LLaMA
+
+Status: ⬜
 
 ---
 
-# Module 4 — Large Language Models (LLMs)
+# Module 4 — Large Language Models
 
-> Learn how modern LLMs are trained and optimized.
+Topics include:
 
-Difficulty : ⭐⭐⭐⭐⭐
+- Tokenization
+- Embeddings
+- Pretraining
+- Fine-tuning
+- RLHF
+- PPO
+- DPO
+- LoRA
+- QLoRA
+- Quantization
+- MoE
 
-Estimated Time : 4 Weeks
-
-| # | Topic | Status |
-|---|-------|--------|
-| 1 | Tokenization | ⬜ |
-| 2 | Embeddings | ⬜ |
-| 3 | Pretraining | ⬜ |
-| 4 | Fine Tuning | ⬜ |
-| 5 | Instruction Tuning | ⬜ |
-| 6 | RLHF | ⬜ |
-| 7 | PPO | ⬜ |
-| 8 | DPO | ⬜ |
-| 9 | LoRA | ⬜ |
-| 10 | QLoRA | ⬜ |
-| 11 | PEFT | ⬜ |
-| 12 | Quantization | ⬜ |
-| 13 | KV Cache | ⬜ |
-| 14 | Speculative Decoding | ⬜ |
-| 15 | Mixture of Experts (MoE) | ⬜ |
+Status: ⬜
 
 ---
 
 # Module 5 — Retrieval-Augmented Generation (RAG)
 
-> Build enterprise-grade knowledge retrieval systems.
+Topics include:
 
-Difficulty : ⭐⭐⭐⭐☆
+- Embeddings
+- Chunking
+- Vector Databases
+- ANN
+- Hybrid Search
+- BM25
+- Cross Encoder
+- Graph RAG
+- Agentic RAG
+- RAG Evaluation
 
-Estimated Time : 4 Weeks
-
-| # | Topic | Status |
-|---|-------|--------|
-| 1 | Embeddings Deep Dive | ⬜ |
-| 2 | Chunking Strategies | ⬜ |
-| 3 | Vector Databases | ⬜ |
-| 4 | Similarity Search | ⬜ |
-| 5 | Approximate Nearest Neighbor (ANN) | ⬜ |
-| 6 | Hybrid Search | ⬜ |
-| 7 | BM25 | ⬜ |
-| 8 | Cross Encoder | ⬜ |
-| 9 | Re-ranking | ⬜ |
-| 10 | End-to-End RAG Pipeline | ⬜ |
-| 11 | Advanced RAG | ⬜ |
-| 12 | Graph RAG | ⬜ |
-| 13 | Agentic RAG | ⬜ |
-| 14 | RAG Evaluation | ⬜ |
-| 15 | Hallucination Detection | ⬜ |
+Status: ⬜
 
 ---
 
 # Module 6 — Agentic AI
 
-Difficulty : ⭐⭐⭐⭐☆
+Topics include:
 
-Estimated Time : 3 Weeks
+- Function Calling
+- MCP
+- AI Agents
+- Planning
+- Reflection
+- Memory
+- LangGraph
+- CrewAI
+- AutoGen
 
-| # | Topic | Status |
-|---|-------|--------|
-| 1 | Function Calling | ⬜ |
-| 2 | Tool Calling | ⬜ |
-| 3 | Model Context Protocol (MCP) | ⬜ |
-| 4 | AI Agents | ⬜ |
-| 5 | Planning | ⬜ |
-| 6 | Reflection | ⬜ |
-| 7 | Memory | ⬜ |
-| 8 | Multi-Agent Systems | ⬜ |
-| 9 | LangGraph | ⬜ |
-| 10 | CrewAI | ⬜ |
-| 11 | AutoGen | ⬜ |
+Status: ⬜
 
 ---
 
 # Module 7 — Prompt Engineering & Evaluation
 
-Difficulty : ⭐⭐⭐⭐☆
+Topics include:
 
-Estimated Time : 2 Weeks
+- Prompt Engineering
+- CoT
+- ReAct
+- Structured Outputs
+- BLEU
+- ROUGE
+- BERTScore
+- RAGAS
+- DeepEval
 
-| # | Topic | Status |
-|---|-------|--------|
-| 1 | Prompt Engineering | ⬜ |
-| 2 | Chain of Thought | ⬜ |
-| 3 | ReAct | ⬜ |
-| 4 | Structured Output | ⬜ |
-| 5 | Prompt Evaluation | ⬜ |
-| 6 | LLM as Judge | ⬜ |
-| 7 | BLEU | ⬜ |
-| 8 | ROUGE | ⬜ |
-| 9 | BERTScore | ⬜ |
-| 10 | RAGAS | ⬜ |
-| 11 | DeepEval | ⬜ |
-| 12 | Human Evaluation | ⬜ |
+Status: ⬜
 
 ---
 
 # Module 8 — Production GenAI
 
-Difficulty : ⭐⭐⭐⭐⭐
+Topics include:
 
-Estimated Time : 3 Weeks
+- FastAPI
+- vLLM
+- TensorRT-LLM
+- Kubernetes
+- GPU Optimization
+- Guardrails
+- Monitoring
+- Observability
+- Cost Optimization
 
-| # | Topic | Status |
-|---|-------|--------|
-| 1 | FastAPI for LLM APIs | ⬜ |
-| 2 | vLLM | ⬜ |
-| 3 | TensorRT-LLM | ⬜ |
-| 4 | Ray Serve | ⬜ |
-| 5 | Kubernetes Deployment | ⬜ |
-| 6 | GPU Optimization | ⬜ |
-| 7 | Caching Strategies | ⬜ |
-| 8 | Monitoring & Logging | ⬜ |
-| 9 | Guardrails | ⬜ |
-| 10 | Cost Optimization | ⬜ |
-| 11 | Security | ⬜ |
-| 12 | Observability | ⬜ |
+Status: ⬜
 
 ---
 
 # Module 9 — GenAI System Design
 
-> Targeted for Senior, Staff and Principal Engineer interviews.
+Target Audience:
 
-Difficulty : ⭐⭐⭐⭐⭐
+- Senior Engineer
+- Staff Engineer
+- Principal Engineer
+- AI Architect
 
-Estimated Time : 5 Weeks
+Topics include:
 
-| # | Topic | Status |
-|---|-------|--------|
-| 1 | ChatGPT System Design | ⬜ |
-| 2 | Enterprise RAG Architecture | ⬜ |
-| 3 | Multi-Tenant RAG | ⬜ |
-| 4 | AI Coding Assistant | ⬜ |
-| 5 | AI Search Engine | ⬜ |
-| 6 | AI Customer Support Platform | ⬜ |
-| 7 | AI Document Intelligence | ⬜ |
-| 8 | AI Agent Platform | ⬜ |
-| 9 | AI Memory Systems | ⬜ |
-| 10 | LLMOps | ⬜ |
+- Enterprise RAG
+- Multi-Agent Architecture
+- AI Search
+- AI Coding Assistant
+- AI Memory Systems
+- LLMOps
+- Production Design
+
+Status: ⬜
 
 ---
 
@@ -418,11 +377,18 @@ Estimated Time : 5 Weeks
 
 By the end of this bootcamp, you will be able to:
 
-- Explain every Deep Learning concept from first principles.
-- Design and build production-ready LLM systems.
-- Crack Senior/Lead/Staff GenAI interviews.
-- Confidently discuss architecture, mathematics, optimization, RAG, Agents, and System Design.
+✅ Explain Deep Learning from first principles.
+
+✅ Derive optimization algorithms instead of memorizing them.
+
+✅ Design production-grade LLM systems.
+
+✅ Build enterprise RAG pipelines.
+
+✅ Build Agentic AI systems.
+
+✅ Crack Senior / Staff / Principal GenAI interviews.
 
 ---
 
-> **"Don't memorize AI. Understand it deeply enough that you could have invented it."**
+> **"Learn every AI algorithm the same way it was invented: start with the problem, reason from first principles, and let the mathematics emerge naturally."**
