@@ -10,7 +10,7 @@
 
 ### Expected Answer
 
-A Perceptron is the simplest neural network that computes a weighted sum of inputs, adds a bias, applies an activation function, and produces a prediction.
+A Perceptron is the simplest neural network that computes a weighted sum of inputs, adds a bias, applies an activation function, and produces a binary prediction.
 
 ---
 
@@ -96,7 +96,7 @@ Expected Answer
 
 Because Linear Regression learns only linear relationships.
 
-Face recognition requires extracting complex hierarchical features from raw pixels, which linear models cannot learn automatically.
+Face recognition requires extracting complex **hierarchical features** from raw pixels, which linear models cannot learn automatically.
 
 ---
 
@@ -154,7 +154,7 @@ Removing manual feature engineering enabled breakthroughs in vision, speech and 
 
 Expected Answer
 
-Composition of linear functions is still linear.
+**Composition of linear functions is still linear.**
 
 Example
 
