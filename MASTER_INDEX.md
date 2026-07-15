@@ -59,16 +59,14 @@ Every lecture follows the same structure.
 
 ---
 
-# 📊 Repository Statistics
-
-| Metric | Status |
-|---------|---------|
-| Current Module | Module 1 |
-| Current Topic | Optimizers |
-| Completed Optimizers | **3 / 5** |
-| Current Optimizer | RMSProp ✅ |
-| Next Lecture | Adam |
-| Course Status | 🟨 In Progress |
+## 📊 Repository Statistics
+Metric	Status
+Current Module	Module 1
+Current Topic	Optimizers
+Completed Optimizers	5 / 5
+Current Lecture	AdamW
+Next Module	Weight Initialization
+Course Status	🟨 In Progress
 
 ---
 
@@ -86,7 +84,7 @@ Every lecture follows the same structure.
 
 ---
 
-# Module 1 — Deep Learning Foundations
+## 🧠 Module 1 — Deep Learning Foundations
 
 > Learn Deep Learning from first principles before studying LLMs.
 
@@ -96,26 +94,26 @@ Every lecture follows the same structure.
 
 ---
 
-## 1. Perceptron ✅
+## 🔹 1. Perceptron ✅
 
-| Lecture | Status |
-|---------|--------|
+| 📘 Lecture | ✅ Status |
+|------------|-----------|
 | Perceptron | ✅ |
 
 ---
 
-## 2. Hidden Layers & XOR ✅
+## 🔹 2. Hidden Layers & XOR ✅
 
-| Lecture | Status |
-|---------|--------|
+| 📘 Lecture | ✅ Status |
+|------------|-----------|
 | Hidden Layers & XOR | ✅ |
 
 ---
 
-## 3. Activation Functions ✅
+## 🔹 3. Activation Functions ✅
 
-| Lecture | Status |
-|---------|--------|
+| 📘 Lecture | ✅ Status |
+|------------|-----------|
 | Step Function | ✅ |
 | Sigmoid | ✅ |
 | Tanh | ✅ |
@@ -126,16 +124,16 @@ Every lecture follows the same structure.
 
 ---
 
-## 4. Training Neural Networks ✅
+## 🔹 4. Training Neural Networks ✅
 
-> **Completed** (Will gradually be migrated to the new six-file lecture structure.)
+> 📌 **Completed** *(Will gradually be migrated to the new six-file lecture structure.)*
 
-| Lecture | Status |
-|---------|--------|
+| 📘 Lecture | ✅ Status |
+|------------|-----------|
 | How Does a Neural Network Learn? | ✅ |
 | Loss Functions | ✅ |
-| Mean Squared Error | ✅ |
-| Mean Absolute Error | ✅ |
+| Mean Squared Error (MSE) | ✅ |
+| Mean Absolute Error (MAE) | ✅ |
 | Cross Entropy | ✅ |
 | Why Cross Entropy Uses Log | ✅ |
 | Binary Cross Entropy | ✅ |
@@ -152,12 +150,12 @@ Every lecture follows the same structure.
 
 ---
 
-## 5. Optimizers 🟨
+## 🔹 5. Optimizers ✅
 
-> Every optimizer is derived from the limitation of the previous optimizer.
+> 🚀 Every optimizer is derived from the limitation of the previous optimizer.
 
-| Lecture | Status |
-|---------|--------|
+| 📘 Lecture | ✅ Status |
+|------------|-----------|
 | Learning Rate | ✅ |
 | Batch Gradient Descent | ✅ |
 | Stochastic Gradient Descent | ✅ |
@@ -165,48 +163,56 @@ Every lecture follows the same structure.
 | Momentum | ✅ |
 | AdaGrad | ✅ |
 | RMSProp | ✅ |
-| Adam | ⬜ |
-| AdamW | ⬜ |
+| Adam | ✅ |
+| AdamW | ✅ |
 
 ---
 
-## 6. Weight Initialization ⬜
+## 🔹 6. Weight Initialization ⬜
 
-| Lecture | Status |
-|---------|--------|
+> 🌱 Learn why good initialization makes deep networks train efficiently.
+
+| 📘 Lecture | ⏳ Status |
+|------------|-----------|
 | Xavier Initialization | ⬜ |
 | He Initialization | ⬜ |
 
 ---
 
-## 7. Batch Normalization ⬜
+## 🔹 7. Regularization ⬜
 
-| Lecture | Status |
-|---------|--------|
-| Batch Normalization | ⬜ |
+> 🛡️ Prevent overfitting and improve model generalization.
 
----
-
-## 8. Dropout ⬜
-
-| Lecture | Status |
-|---------|--------|
+| 📘 Lecture | ⏳ Status |
+|------------|-----------|
+| Why Models Overfit | ⬜ |
+| Bias-Variance Tradeoff | ⬜ |
+| L1 Regularization | ⬜ |
+| L2 Regularization | ⬜ |
+| Weight Decay | ⬜ |
+| Early Stopping | ⬜ |
+| Data Augmentation | ⬜ |
 | Dropout | ⬜ |
+| Batch Normalization (Regularization Effect) | ⬜ |
 
 ---
 
-## 9. Residual Connections ⬜
+## 🔹 8. Residual Connections ⬜
 
-| Lecture | Status |
-|---------|--------|
+> 🔗 Making very deep neural networks trainable.
+
+| 📘 Lecture | ⏳ Status |
+|------------|-----------|
 | Residual Connections | ⬜ |
 
 ---
 
-## 10. Universal Approximation Theorem ⬜
+## 🔹 9. Universal Approximation Theorem ⬜
 
-| Lecture | Status |
-|---------|--------|
+> 🧩 Why neural networks can approximate almost any continuous function.
+
+| 📘 Lecture | ⏳ Status |
+|------------|-----------|
 | Universal Approximation Theorem | ⬜ |
 
 ---
