@@ -542,6 +542,245 @@ This is often referred to as:
 `fan_in` mode
 
 ---
+# 1️⃣6️⃣ What About Backpropagation in He Initialization?
+
+He Initialization also affects gradient flow during backpropagation.
+
+The common formula:
+
+Var(W) = 2 / fan_in
+
+is primarily derived to preserve **forward activation variance**.
+
+But during backpropagation, we also want gradients to remain at a healthy scale.
+
+---
+
+## ReLU During Backpropagation
+
+Recall the ReLU derivative:
+
+x > 0 → ReLU'(x) = 1  
+x < 0 → ReLU'(x) = 0
+
+If the pre-activation values are roughly symmetric around zero, then approximately:
+
+50% of gradients pass through  
+50% are blocked
+
+Conceptually:
+
+Gradient  
+↓  
+ReLU Derivative  
+↓  
+Positive Region → Gradient Passes  
+Negative Region → Gradient Becomes 0
+
+So ReLU affects backward signal flow in a way similar to how it affects forward activations.
+
+---
+
+## Backward Variance
+
+A simplified backward variance relationship is:
+
+Var(gradient_previous)
+≈
+fan_out × Var(W) × E[(ReLU')²] × Var(gradient_next)
+
+For ReLU:
+
+ReLU' ∈ {0, 1}
+
+and approximately half the values are active.
+
+So:
+
+E[(ReLU')²] ≈ 1/2
+
+Therefore:
+
+Var(gradient_previous)
+≈
+fan_out × Var(W) × 1/2 × Var(gradient_next)
+
+To preserve gradient variance:
+
+Var(gradient_previous)
+≈
+Var(gradient_next)
+
+we need:
+
+fan_out × Var(W) × 1/2 ≈ 1
+
+Therefore:
+
+Var(W) ≈ 2 / fan_out
+
+---
+
+# 1️⃣7️⃣ Forward-Preserving vs Backward-Preserving He
+
+Now we have two useful conditions.
+
+### Forward Propagation
+
+To preserve activation variance:
+
+Var(W) ≈ 2 / fan_in
+
+### Backward Propagation
+
+To preserve gradient variance:
+
+Var(W) ≈ 2 / fan_out
+
+So:
+
+fan_in  
+↓  
+Forward activation preservation
+
+fan_out  
+↓  
+Backward gradient preservation
+
+---
+
+# 1️⃣8️⃣ What If `fan_in = fan_out`?
+
+Suppose:
+
+fan_in = 100  
+fan_out = 100
+
+Forward requirement:
+
+Var(W)
+=
+2 / 100
+=
+0.02
+
+Backward requirement:
+
+Var(W)
+=
+2 / 100
+=
+0.02
+
+They are the same.
+
+Therefore, when:
+
+fan_in ≈ fan_out
+
+He Initialization can approximately preserve both:
+
+- Forward activation variance
+- Backward gradient variance
+
+---
+
+# 1️⃣9️⃣ What If `fan_in` and `fan_out` Are Different?
+
+Suppose:
+
+fan_in = 100  
+fan_out = 500
+
+Forward-preserving He:
+
+Var(W)
+=
+2 / 100
+=
+0.02
+
+Backward-preserving He:
+
+Var(W)
+=
+2 / 500
+=
+0.004
+
+These are different.
+
+That means one single variance cannot perfectly preserve both forward and backward signal variance when the layer dimensions are very different.
+
+---
+
+## Example — Using `fan_in`
+
+Suppose:
+
+fan_in = 100  
+fan_out = 500
+
+Using:
+
+Var(W) = 2 / fan_in
+
+gives:
+
+Var(W) = 0.02
+
+Backward variance becomes approximately:
+
+Var(gradient_previous)
+≈
+500 × 0.02 × 1/2 × Var(gradient_next)
+
+≈
+5 × Var(gradient_next)
+
+So the backward gradient variance may increase.
+
+---
+
+## Example — Using `fan_out`
+
+Using:
+
+Var(W) = 2 / fan_out
+
+gives:
+
+Var(W) = 0.004
+
+Then:
+
+500 × 0.004 × 1/2
+
+=
+1
+
+So:
+
+Var(gradient_previous)
+≈
+Var(gradient_next)
+
+This better preserves the backward gradient scale.
+
+---
+
+# 2️⃣0️⃣ Why Does PyTorch Have `fan_in` and `fan_out` Modes?
+
+PyTorch exposes this distinction directly.
+
+### `mode="fan_in"`
+
+```python
+nn.init.kaiming_normal_(
+    layer.weight,
+    mode="fan_in",
+    nonlinearity="relu"
+)
 
 # 1️⃣6️⃣ Does He Completely Ignore Backpropagation?
 
