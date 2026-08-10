@@ -642,6 +642,157 @@ Feature Map Showing Vertical Edges
 
 Different filters produce different feature maps.
 
+
+# 📌 Feature Map — Simple Example
+
+Suppose we have:
+
+- Input image size = `5 × 5`
+- Filter/kernel size = `3 × 3`
+- Stride = `1`
+- Padding = `0`
+
+A single `3 × 3` filter moves across the entire image.
+
+At each position, it performs:
+
+Local Image Region  
+×  
+Filter Weights  
+↓  
+Multiply + Sum  
+↓  
+One Output Value
+
+For example:
+
+Position 1  
+→ Output = `2`
+
+Position 2  
+→ Output = `0`
+
+Position 3  
+→ Output = `8`
+
+Position 4  
+→ Output = `1`
+
+Position 5  
+→ Output = `4`
+
+Position 6  
+→ Output = `7`
+
+Position 7  
+→ Output = `0`
+
+Position 8  
+→ Output = `2`
+
+Position 9  
+→ Output = `1`
+
+These individual outputs are arranged according to their spatial positions:
+
+2   0   8  
+1   4   7  
+0   2   1
+
+This complete output grid is called:
+
+> **One Feature Map**
+
+So remember:
+
+One Filter at One Location  
+↓  
+One Scalar Output
+
+Same Filter Across Whole Image  
+↓  
+Many Scalar Outputs  
+↓  
+One Feature Map
+
+---
+
+## 🔹 One Filter → One Feature Map
+
+If we use only one filter:
+
+Filter 1  
+↓  
+Scans Whole Image  
+↓  
+Feature Map 1
+
+So:
+
+> **1 Filter → 1 Feature Map**
+
+---
+
+## 🔹 Multiple Filters → Multiple Feature Maps
+
+A convolutional layer usually has multiple filters.
+
+For example, suppose we have:
+
+`32 filters`
+
+Then:
+
+Filter 1  
+→ Feature Map 1
+
+Filter 2  
+→ Feature Map 2
+
+Filter 3  
+→ Feature Map 3
+
+...
+
+Filter 32  
+→ Feature Map 32
+
+Therefore:
+
+> **32 Filters → 32 Feature Maps**
+
+These 32 feature maps together form the output of that convolutional layer.
+
+---
+
+## 🧠 Important Terminology
+
+Do not confuse:
+
+### One Convolution Calculation
+
+A filter applied at one location:
+
+`3 × 3 region → one number`
+
+with:
+
+### One Feature Map
+
+The same filter applied across all valid locations:
+
+Many output numbers  
+↓  
+Arrange them spatially  
+↓  
+One Feature Map
+
+---
+
+# ⭐ Golden Rule
+
+> **One filter applied across the complete input produces one feature map.**
+
 ---
 
 # 2️⃣0️⃣ CNNs Do Not Manually Define All Filters
