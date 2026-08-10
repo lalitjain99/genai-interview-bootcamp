@@ -1,11 +1,12 @@
 # 🚀 GenAI Interview Bootcamp
+
 ## From Software Engineer → Senior / Staff / Lead GenAI Engineer
 
 ---
 
 # 📖 About this Repository
 
-This repository is a complete roadmap for preparing **Senior, Staff, Lead, and AI Architect interviews**.
+This repository is a complete roadmap for preparing for **Senior, Staff, Lead, and AI Architect interviews**.
 
 Unlike traditional interview preparation, this bootcamp is built entirely from **first principles**.
 
@@ -21,23 +22,21 @@ The goal is simple:
 
 Every lecture follows the same philosophy.
 
-```
-Problem
-      ↓
-Understand Existing Solution
-      ↓
-Identify Its Limitations
-      ↓
-Think Like an Engineer
-      ↓
-Derive the Mathematics
-      ↓
-Build Intuition
-      ↓
-Engineering Q&A
-      ↓
+Problem  
+↓  
+Understand Existing Solution  
+↓  
+Identify Its Limitations  
+↓  
+Think Like an Engineer  
+↓  
+Derive the Mathematics  
+↓  
+Build Intuition  
+↓  
+Engineering Q&A  
+↓  
 Staff Engineer Challenge
-```
 
 This approach develops intuition instead of memorization.
 
@@ -45,38 +44,48 @@ This approach develops intuition instead of memorization.
 
 # 📚 Standard Lecture Structure
 
-Every lecture follows the same structure.
+Core topics generally follow the complete six-file structure.
 
 | File | Purpose |
-|------|----------|
-| 📘 01_Lecture.md | Story-driven learning from first principles |
-| 📝 02_Revision.md | 5-minute revision |
-| 🎤 03_Interview.md | Engineering & Staff Interview Q&A |
-| 💡 04_Assignment.md | Scenario-based reasoning |
-| ⚡ 05_CheatSheet.md | One-page interview revision |
-| 🚫 06_Common_Mistakes.md | Common misconceptions |
-| 💻 Code.ipynb *(Optional)* | Hands-on implementation |
+|---|---|
+| 📘 `01_Lecture.md` | Story-driven learning from first principles |
+| 📝 `02_Revision.md` | Short revision notes |
+| 🎤 `03_Interview.md` | Engineering & Staff Interview Q&A |
+| 💡 `04_Assignment.md` | Scenario-based reasoning |
+| ⚡ `05_CheatSheet.md` | High-yield interview revision |
+| 🚫 `06_Common_Mistakes.md` | Common misconceptions |
+| 💻 `Code.ipynb` *(Optional)* | Hands-on implementation |
+
+> 📌 Not every conceptual topic requires all six files.  
+> Lightweight theoretical topics may use only Lecture, Revision, Interview, and Common Mistakes.
 
 ---
 
-## 📊 Repository Statistics
-Metric	Status
-Current Module	Module 1
-Current Topic	Optimizers
-Completed Optimizers	5 / 5
-Current Lecture	AdamW
-Next Module	Weight Initialization
-Course Status	🟨 In Progress
+# 📊 Repository Statistics
+
+| Metric | Status |
+|---|---|
+| Current Module | Module 1 — Deep Learning Foundations |
+| Completed Major Topics | 9 |
+| Current Topic | Universal Approximation Theorem ✅ |
+| Next Topic | Convolutional Neural Networks (CNN) |
+| Optimizers | ✅ Complete |
+| Regularization | ✅ Complete |
+| Weight Initialization | ✅ Complete |
+| Residual Connections | ✅ Complete |
+| Universal Approximation | ✅ Complete |
+| Course Status | 🟨 In Progress |
 
 ---
 
-# Progress Legend
+# 📈 Progress Legend
 
 | Symbol | Meaning |
-|---------|---------|
+|---|---|
 | ✅ | Completed |
 | 🟨 | In Progress |
 | ⬜ | Not Started |
+| ➖ | Intentionally Skipped / Covered Elsewhere |
 
 ---
 
@@ -84,36 +93,55 @@ Course Status	🟨 In Progress
 
 ---
 
-## 🧠 Module 1 — Deep Learning Foundations
+# 🧠 Module 1 — Deep Learning Foundations
 
-> Learn Deep Learning from first principles before studying LLMs.
+> Learn Deep Learning from first principles before studying advanced architectures and LLMs.
 
 **Difficulty:** ⭐⭐⭐⭐☆
 
-**Estimated Time:** 8–10 Weeks
+**Status:** 🟨 In Progress
 
 ---
 
 ## 🔹 1. Perceptron ✅
 
-| 📘 Lecture | ✅ Status |
-|------------|-----------|
+| 📘 Topic | Status |
+|---|---|
 | Perceptron | ✅ |
+
+Key concepts:
+
+- Biological neuron intuition
+- Weighted sum
+- Weights
+- Bias
+- Activation
+- Decision boundary
+- Linear separability
+- Perceptron limitations
 
 ---
 
 ## 🔹 2. Hidden Layers & XOR ✅
 
-| 📘 Lecture | ✅ Status |
-|------------|-----------|
+| 📘 Topic | Status |
+|---|---|
 | Hidden Layers & XOR | ✅ |
+
+Key concepts:
+
+- Why a single Perceptron fails on XOR
+- Linear separability
+- Hidden layers
+- Combining multiple decision boundaries
+- Why nonlinear networks are required
 
 ---
 
 ## 🔹 3. Activation Functions ✅
 
-| 📘 Lecture | ✅ Status |
-|------------|-----------|
+| 📘 Topic | Status |
+|---|---|
 | Step Function | ✅ |
 | Sigmoid | ✅ |
 | Tanh | ✅ |
@@ -122,14 +150,25 @@ Course Status	🟨 In Progress
 | GELU | ✅ |
 | Softmax | ✅ |
 
+Key concepts:
+
+- Why activation functions are required
+- Nonlinearity
+- Saturation
+- Vanishing gradients
+- Dead neurons
+- Sparse activations
+- Logits vs probabilities
+- Softmax distributions
+
 ---
 
 ## 🔹 4. Training Neural Networks ✅
 
-> 📌 **Completed** *(Will gradually be migrated to the new six-file lecture structure.)*
+> 📌 Completed. Some older topics may gradually be migrated into the newer structured lecture format.
 
-| 📘 Lecture | ✅ Status |
-|------------|-----------|
+| 📘 Topic | Status |
+|---|---|
 | How Does a Neural Network Learn? | ✅ |
 | Loss Functions | ✅ |
 | Mean Squared Error (MSE) | ✅ |
@@ -152,10 +191,10 @@ Course Status	🟨 In Progress
 
 ## 🔹 5. Optimizers ✅
 
-> 🚀 Every optimizer is derived from the limitation of the previous optimizer.
+> 🚀 Every optimizer was derived from the limitation of the previous optimizer.
 
-| 📘 Lecture | ✅ Status |
-|------------|-----------|
+| 📘 Topic | Status |
+|---|---|
 | Learning Rate | ✅ |
 | Batch Gradient Descent | ✅ |
 | Stochastic Gradient Descent | ✅ |
@@ -166,81 +205,315 @@ Course Status	🟨 In Progress
 | Adam | ✅ |
 | AdamW | ✅ |
 
----
+### Key Progression
 
-## 🔹 6. Weight Initialization ⬜
+Gradient Descent  
+↓  
+SGD  
+↓  
+Momentum  
+↓  
+AdaGrad  
+↓  
+RMSProp  
+↓  
+Adam  
+↓  
+AdamW
 
-> 🌱 Learn why good initialization makes deep networks train efficiently.
+### Major Concepts Covered
 
-| 📘 Lecture | ⏳ Status |
-|------------|-----------|
-| Xavier Initialization | ⬜ |
-| He Initialization | ⬜ |
-
----
-
-## 🔹 7. Regularization ⬜
-
-> 🛡️ Prevent overfitting and improve model generalization.
-
-| 📘 Lecture | ⏳ Status |
-|------------|-----------|
-| Why Models Overfit | ⬜ |
-| Bias-Variance Tradeoff | ⬜ |
-| L1 Regularization | ⬜ |
-| L2 Regularization | ⬜ |
-| Weight Decay | ⬜ |
-| Early Stopping | ⬜ |
-| Data Augmentation | ⬜ |
-| Dropout | ⬜ |
-| Batch Normalization (Regularization Effect) | ⬜ |
-
----
-
-## 🔹 8. Residual Connections ⬜
-
-> 🔗 Making very deep neural networks trainable.
-
-| 📘 Lecture | ⏳ Status |
-|------------|-----------|
-| Residual Connections | ⬜ |
+- Learning rate
+- Moving averages
+- Momentum
+- Adaptive learning rates
+- First moment
+- Second moment
+- Bias correction
+- Adam
+- L2 Regularization vs Weight Decay
+- Decoupled Weight Decay
+- AdamW
 
 ---
 
-## 🔹 9. Universal Approximation Theorem ⬜
+## 🔹 6. Weight Initialization ✅
 
-> 🧩 Why neural networks can approximate almost any continuous function.
+> 🌱 Learn how initialization controls symmetry, activation scale, and gradient flow before training begins.
 
-| 📘 Lecture | ⏳ Status |
-|------------|-----------|
-| Universal Approximation Theorem | ⬜ |
+| 📘 Topic | Status |
+|---|---|
+| Why Weight Initialization | ✅ |
+| Zero Initialization | ✅ |
+| Random Initialization | ✅ |
+| Vanishing & Exploding Gradients | ✅ |
+| Xavier / Glorot Initialization | ✅ |
+| He / Kaiming Initialization | ✅ |
+| Weight Initialization Comparison | ✅ |
+| Module Summary | ✅ |
+
+### Key Progression
+
+Zero Initialization  
+↓  
+Symmetry Problem  
+↓  
+Random Initialization  
+↓  
+Symmetry Broken  
+↓  
+But Scale Matters  
+↓  
+Vanishing / Exploding Gradients  
+↓  
+Controlled Initialization  
+↓  
+Xavier  
+↓  
+He
+
+### Important Formulas
+
+Xavier:
+
+`Var(W) = 2 / (fan_in + fan_out)`
+
+He — forward:
+
+`Var(W) = 2 / fan_in`
+
+He — backward-focused:
+
+`Var(W) = 2 / fan_out`
+
+### Key Decision
+
+Tanh / Sigmoid  
+→ Xavier
+
+ReLU / Leaky ReLU  
+→ He / Kaiming
 
 ---
 
-# Module 2 — Sequence Models
+## 🔹 7. Regularization & Generalization ✅
 
-> Understand why Transformers were invented.
+> 🛡️ Understand why models overfit and how to improve generalization.
+
+| 📘 Topic | Status |
+|---|---|
+| Why Models Overfit | ✅ |
+| Bias-Variance Tradeoff | ✅ |
+| L1 Regularization | ✅ |
+| L2 Regularization | ✅ |
+| Elastic Net | ✅ |
+| Weight Decay — Standalone | ➖ Covered deeply in AdamW |
+| Early Stopping | ✅ |
+| Data Augmentation | ✅ |
+| Dropout | ✅ |
+| Batch Normalization | ✅ |
+| Regularization Comparison | ✅ |
+| Module Summary | ✅ |
+
+### Key Concepts
+
+- Underfitting
+- Overfitting
+- Bias
+- Variance
+- L1 sparsity
+- L2 shrinkage
+- Elastic Net
+- Weight Decay
+- Early Stopping
+- Data Augmentation
+- Dropout
+- Batch Normalization
+- Training vs validation behavior
+
+### Important Distinction
+
+Regularization  
+→ Generalization
+
+Optimization  
+→ Training
+
+---
+
+## 🔹 8. Residual Connections ✅
+
+> 🔗 Making very deep neural networks easier to optimize.
+
+| 📘 File | Status |
+|---|---|
+| Lecture | ✅ |
+| Revision | ✅ |
+| Interview | ✅ |
+| Assignment | ✅ |
+| Cheat Sheet | ✅ |
+| Common Mistakes | ✅ |
+
+### Core Equation
+
+`y = F(x) + x`
+
+### Key Concepts
+
+- Degradation problem
+- Degradation vs overfitting
+- Residual learning
+- Identity mapping
+- Shortcut / skip connection
+- Forward information flow
+- Gradient shortcut
+- Identity shortcut
+- Projection shortcut
+- Dimension mismatch
+- ResNet intuition
+
+### Projection Shortcut
+
+When dimensions differ:
+
+`y = F(x) + Wₛx`
+
+### Core Mental Model
+
+Existing Representation  
++  
+Learned Correction  
+↓  
+Improved Representation
+
+---
+
+## 🔹 9. Universal Approximation Theorem ✅
+
+> 🧩 Why neural networks have enough representational power to approximate extremely complex functions.
+
+| 📘 File | Status |
+|---|---|
+| Lecture | ✅ |
+| Revision | ✅ |
+| Interview | ✅ |
+| Common Mistakes | ✅ |
+| Assignment | ➖ Not Required |
+| Cheat Sheet | ➖ Revision is sufficient |
+
+### Key Concepts
+
+- Representational capacity
+- Suitable nonlinear activation
+- Sufficient hidden units
+- Continuous functions
+- Bounded / compact domains
+- Arbitrarily close approximation
+- Width vs depth
+- Shallow vs deep networks
+- ReLU piecewise-linear approximation
+
+### Most Important Distinction
+
+Can Represent  
+≠  
+Can Train Easily  
+≠  
+Can Generalize Well
+
+Universal Approximation  
+→ Representation
+
+Optimization  
+→ Training
+
+Regularization  
+→ Generalization
+
+---
+
+# 🔹 10. Convolutional Neural Networks (CNN) ⬜
+
+> 🖼️ Learn how neural networks process spatial information and why CNNs became fundamental for computer vision.
+
+**Status:** ⬜ Not Started
+
+Planned topics:
+
+| 📘 Topic | Status |
+|---|---|
+| Why CNNs Were Invented | ⬜ |
+| Image Representation | ⬜ |
+| Convolution Operation | ⬜ |
+| Filters / Kernels | ⬜ |
+| Feature Maps | ⬜ |
+| Stride | ⬜ |
+| Padding | ⬜ |
+| Output Dimension Calculation | ⬜ |
+| Multiple Filters / Channels | ⬜ |
+| Pooling | ⬜ |
+| CNN Feature Hierarchy | ⬜ |
+| CNN Architecture | ⬜ |
+| CNN Backpropagation | ⬜ |
+| Parameter Sharing | ⬜ |
+| Receptive Field | ⬜ |
+| CNN vs Fully Connected Networks | ⬜ |
+| CNN Architecture Comparison | ⬜ |
+| Module Summary | ⬜ |
+
+### Planned Learning Flow
+
+Images  
+↓  
+Why Fully Connected Networks Are Inefficient  
+↓  
+Spatial Structure  
+↓  
+Local Connectivity  
+↓  
+Convolution  
+↓  
+Filters / Kernels  
+↓  
+Feature Maps  
+↓  
+Stride & Padding  
+↓  
+Pooling  
+↓  
+Hierarchical Feature Learning  
+↓  
+CNN Architecture
+
+---
+
+# 🧠 Module 2 — Sequence Models ⬜
+
+> Understand sequential data and why Transformers were eventually invented.
 
 **Difficulty:** ⭐⭐⭐⭐☆
 
 **Estimated Time:** 2 Weeks
 
-- RNN
-- BPTT
-- Vanishing Gradient
-- Exploding Gradient
-- LSTM
-- GRU
-- Seq2Seq
-- Attention Mechanism
+| 📘 Topic | Status |
+|---|---|
+| Why Sequence Models | ⬜ |
+| Recurrent Neural Networks (RNN) | ⬜ |
+| Backpropagation Through Time (BPTT) | ⬜ |
+| Vanishing Gradients in RNNs | ⬜ |
+| Exploding Gradients in RNNs | ⬜ |
+| Long Short-Term Memory (LSTM) | ⬜ |
+| Gated Recurrent Unit (GRU) | ⬜ |
+| Seq2Seq | ⬜ |
+| Attention Mechanism | ⬜ |
 
-Status: ⬜
+**Status:** ⬜ Not Started
 
 ---
 
-# Module 3 — Transformer Architecture
+# 🤖 Module 3 — Transformer Architecture ⬜
 
-> The most important Deep Learning module.
+> The most important Deep Learning module for modern Generative AI.
 
 **Difficulty:** ⭐⭐⭐⭐⭐
 
@@ -248,134 +521,177 @@ Status: ⬜
 
 Topics include:
 
-- Self Attention
-- QKV
+- Why Transformers Were Invented
+- Self-Attention
+- Query, Key, Value
+- Scaled Dot-Product Attention
 - Multi-Head Attention
 - Positional Encoding
-- Encoder
-- Decoder
+- Feed-Forward Networks
+- Layer Normalization
+- Residual Connections in Transformers
+- Transformer Encoder
+- Transformer Decoder
+- Encoder-Decoder Architecture
+- Causal Attention
 - GPT
 - BERT
 - T5
 - LLaMA
 
-Status: ⬜
+**Status:** ⬜ Not Started
 
 ---
 
-# Module 4 — Large Language Models
+# 🧠 Module 4 — Large Language Models ⬜
 
 Topics include:
 
 - Tokenization
+- Vocabulary
 - Embeddings
 - Pretraining
-- Fine-tuning
+- Next Token Prediction
+- Fine-Tuning
+- Instruction Tuning
 - RLHF
+- Reward Models
 - PPO
 - DPO
 - LoRA
 - QLoRA
 - Quantization
-- MoE
+- Mixture of Experts (MoE)
 
-Status: ⬜
+**Status:** ⬜ Not Started
 
 ---
 
-# Module 5 — Retrieval-Augmented Generation (RAG)
+# 🔎 Module 5 — Retrieval-Augmented Generation (RAG) ⬜
 
 Topics include:
 
 - Embeddings
+- Document Processing
 - Chunking
 - Vector Databases
-- ANN
-- Hybrid Search
+- Approximate Nearest Neighbors
+- Semantic Search
 - BM25
-- Cross Encoder
+- Hybrid Search
+- Reranking
+- Cross Encoders
+- Query Transformation
+- Multi-Hop Retrieval
 - Graph RAG
 - Agentic RAG
 - RAG Evaluation
+- Production RAG Architecture
 
-Status: ⬜
+**Status:** ⬜ Not Started
 
 ---
 
-# Module 6 — Agentic AI
+# 🤖 Module 6 — Agentic AI ⬜
 
 Topics include:
 
 - Function Calling
-- MCP
+- Tool Calling
+- Model Context Protocol (MCP)
 - AI Agents
 - Planning
 - Reflection
 - Memory
+- Agent State
 - LangGraph
+- Multi-Agent Systems
 - CrewAI
 - AutoGen
+- Agent Evaluation
 
-Status: ⬜
+**Status:** ⬜ Not Started
 
 ---
 
-# Module 7 — Prompt Engineering & Evaluation
+# ✍️ Module 7 — Prompt Engineering & Evaluation ⬜
 
 Topics include:
 
 - Prompt Engineering
-- CoT
+- Zero-Shot Prompting
+- Few-Shot Prompting
+- Chain of Thought
 - ReAct
 - Structured Outputs
+- Prompt Injection
 - BLEU
 - ROUGE
 - BERTScore
+- LLM-as-a-Judge
 - RAGAS
 - DeepEval
+- Hallucination Evaluation
 
-Status: ⬜
+**Status:** ⬜ Not Started
 
 ---
 
-# Module 8 — Production GenAI
+# 🚀 Module 8 — Production GenAI ⬜
 
 Topics include:
 
 - FastAPI
+- Async APIs
+- Model Serving
 - vLLM
 - TensorRT-LLM
+- Docker
 - Kubernetes
 - GPU Optimization
+- Scaling
+- Caching
 - Guardrails
+- Security
 - Monitoring
 - Observability
+- Latency Optimization
 - Cost Optimization
+- LLMOps
 
-Status: ⬜
+**Status:** ⬜ Not Started
 
 ---
 
-# Module 9 — GenAI System Design
+# 🏗️ Module 9 — GenAI System Design ⬜
 
-Target Audience:
+### Target Audience
 
 - Senior Engineer
 - Staff Engineer
 - Principal Engineer
+- GenAI Lead
 - AI Architect
 
 Topics include:
 
 - Enterprise RAG
 - Multi-Agent Architecture
-- AI Search
+- AI Search Platform
 - AI Coding Assistant
 - AI Memory Systems
-- LLMOps
-- Production Design
+- Knowledge Platforms
+- LLM Gateway
+- Model Routing
+- LLMOps Architecture
+- High Availability
+- Scalability
+- Security
+- Observability
+- Cost Engineering
+- Production GenAI Design
 
-Status: ⬜
+**Status:** ⬜ Not Started
 
 ---
 
@@ -385,7 +701,15 @@ By the end of this bootcamp, you will be able to:
 
 ✅ Explain Deep Learning from first principles.
 
+✅ Understand why neural-network architectures evolved.
+
 ✅ Derive optimization algorithms instead of memorizing them.
+
+✅ Explain optimization, representation, and generalization separately.
+
+✅ Understand CNNs, Sequence Models, and Transformers from first principles.
+
+✅ Understand modern Large Language Models deeply.
 
 ✅ Design production-grade LLM systems.
 
@@ -393,7 +717,49 @@ By the end of this bootcamp, you will be able to:
 
 ✅ Build Agentic AI systems.
 
-✅ Crack Senior / Staff / Principal GenAI interviews.
+✅ Evaluate and monitor GenAI systems.
+
+✅ Design scalable production GenAI architectures.
+
+✅ Crack Senior / Staff / Principal / Lead GenAI interviews.
+
+---
+
+# 🧭 Current Position
+
+Perceptron ✅  
+↓  
+Hidden Layers & XOR ✅  
+↓  
+Activation Functions ✅  
+↓  
+Training Neural Networks ✅  
+↓  
+Optimizers ✅  
+↓  
+Weight Initialization ✅  
+↓  
+Regularization & Generalization ✅  
+↓  
+Residual Connections ✅  
+↓  
+Universal Approximation Theorem ✅  
+↓  
+**CNN ⬜ ← NEXT**  
+↓  
+Sequence Models ⬜  
+↓  
+Transformers ⬜  
+↓  
+Large Language Models ⬜  
+↓  
+RAG ⬜  
+↓  
+Agentic AI ⬜  
+↓  
+Production GenAI ⬜  
+↓  
+GenAI System Design ⬜
 
 ---
 
