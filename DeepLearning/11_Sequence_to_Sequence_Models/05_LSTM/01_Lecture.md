@@ -419,6 +419,7 @@ Then different learned transformations calculate different gates.
 The first question is:
 
 > **What should we remove from old memory?**
+“Given what I already know and what I am seeing now, how much of the old memory should I keep?”
 
 Forget gate:
 
