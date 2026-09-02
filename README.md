@@ -4,7 +4,7 @@
 >
 > **Don't memorize AI. Understand it deeply enough that you could have invented it.**
 
-This repository is my structured learning journey through **Deep Learning, Sequence Models, Attention, Transformers, Large Language Models, RAG, Agentic AI, MCP, Evaluation, Production GenAI, and System Design**.
+This repository is my structured learning journey through **Deep Learning, Sequence Models, Attention, Transformers, NLP Foundations, Large Language Model Internals, RAG, Agentic AI, MCP, Evaluation, Production GenAI, and System Design**.
 
 The goal is not only to prepare for interviews. It is to build enough intuition, mathematical understanding, and engineering depth to **design, build, debug, and explain production-grade GenAI systems**.
 
@@ -105,6 +105,12 @@ Bahdanau Attention
 Luong Attention
 ↓
 Transformers
+↓
+NLP Foundations
+↓
+LLM Internals
+↓
+RAG → Agents / MCP → Evaluation → Production → System Design
 ```
 
 > 📚 For the complete topic-by-topic learning history, current status, and future syllabus, see **[MASTER_INDEX.md](MASTER_INDEX.md)**.
@@ -113,7 +119,7 @@ Transformers
 
 # 🗺️ Bootcamp Roadmap
 
-The original phase-based idea is preserved, but the phases now follow the actual conceptual progression of the course and the new repository structure.
+The phase-based structure is intentionally preserved because it makes the long learning journey easier to reason about. Each phase has a clear purpose and feeds the next one.
 
 ## Phase 1 — Deep Learning Foundations ✅
 
@@ -168,7 +174,7 @@ Solve the fixed-context bottleneck by giving the decoder dynamic access to sourc
 
 ## Phase 4 — Transformer Architecture ⬜
 
-Start a new architectural stage: remove recurrence as the primary sequence-processing mechanism and rebuild around attention.
+Start a new architectural stage: remove recurrence as the primary sequence-processing mechanism and rebuild sequence modeling around attention.
 
 - Why Transformers Were Invented
 - Self-Attention
@@ -183,38 +189,103 @@ Start a new architectural stage: remove recurrence as the primary sequence-proce
 - Transformer Decoder
 - Encoder–Decoder Transformer
 - Causal Attention
-- GPT
-- BERT
-- T5
-- LLaMA
+- GPT Architecture
+- BERT Architecture
+- T5 Architecture
+- LLaMA Architecture
+
+> This phase focuses primarily on **architecture**: how Transformer blocks work and how major model families are structurally organized.
 
 ---
 
-## Phase 5 — Large Language Models ⬜
+## Phase 5 — NLP Foundations ⬜
 
-Move from Transformer architecture to how modern language models represent text, train, align, adapt, and generate efficiently.
+Build the language-representation concepts that connect classical NLP, Transformers, modern embeddings, retrieval, and LLM systems.
 
-Planned areas include:
+- Text preprocessing and normalization
+- Tokenization fundamentals
+- Vocabulary and out-of-vocabulary problems
+- One-Hot Encoding
+- Bag of Words
+- TF-IDF
+- Distributional semantics
+- Word2Vec
+- GloVe
+- FastText
+- Subword tokenization
+- Byte Pair Encoding (BPE)
+- WordPiece / SentencePiece concepts
+- Contextual embeddings
+- Sentence Embeddings
+- Bi-Encoder vs Cross-Encoder
+- Similarity measures for language representations
 
-- Tokenization
-- Embeddings and language representations
+**Conceptual progression**
+
+```text
+Words as Symbols
+↓
+Sparse Statistical Representations
+↓
+Dense Word Embeddings
+↓
+Subword Representations
+↓
+Contextual Representations
+↓
+Sentence / Semantic Representations
+```
+
+> NLP Foundations remains a dedicated phase rather than being hidden inside the LLM or RAG modules. These ideas are important enough to study independently and are reused throughout later phases.
+
+---
+
+## Phase 6 — LLM Internals ⬜
+
+Move beyond Transformer architecture and understand how modern Large Language Models are actually trained, aligned, adapted, and served efficiently.
+
+- Language Modeling Objective
+- Next-Token Prediction
 - Pretraining
+- Training Data and Corpus Preparation
+- Scaling intuition
 - Fine-Tuning
 - Instruction Tuning
+- Supervised Fine-Tuning (SFT)
+- Alignment concepts
 - RLHF
+- Reward Models
 - PPO
 - DPO
-- LoRA / QLoRA / PEFT
+- Parameter-Efficient Fine-Tuning (PEFT)
+- LoRA
+- QLoRA
 - Quantization
 - KV Cache
+- Prefill vs Decode
+- Sampling and Generation Controls
 - Speculative Decoding
-- Mixture of Experts
+- Mixture of Experts (MoE)
+- LLM inference efficiency
 
-> NLP foundations such as tokenization and embeddings remain part of the journey, but they are now placed where they naturally support modern LLM understanding instead of living as a disconnected standalone phase.
+**Important boundary**
+
+```text
+Transformer Phase
+→ How the architecture works
+
+NLP Foundations
+→ How language is represented
+
+LLM Internals
+→ How large Transformer language models are trained, aligned, adapted and run
+```
+
+This separation prevents three very large topics from being mixed into one module.
 
 ---
 
-## Phase 6 — Retrieval-Augmented Generation (RAG) ⬜
+## Phase 7 — Retrieval-Augmented Generation (RAG) ⬜
 
 Build systems that ground model generation in external knowledge.
 
@@ -224,7 +295,7 @@ Build systems that ground model generation in external knowledge.
 - Similarity Search
 - Approximate Nearest Neighbor Search
 - BM25 & Hybrid Search
-- Bi-Encoder / Cross-Encoder concepts
+- Bi-Encoder / Cross-Encoder retrieval
 - Re-ranking
 - Query Transformation
 - Context Compression
@@ -237,7 +308,7 @@ Build systems that ground model generation in external knowledge.
 
 ---
 
-## Phase 7 — Agentic AI & MCP ⬜
+## Phase 8 — Agentic AI & MCP ⬜
 
 Move from single LLM calls to systems that can reason, use tools, plan, maintain state, and collaborate.
 
@@ -250,27 +321,30 @@ Move from single LLM calls to systems that can reason, use tools, plan, maintain
 - Multi-Agent Systems
 - Model Context Protocol (MCP)
 - MCP Clients / Servers
-- Tool & Resource Integration
+- Tools, Resources, and Prompts
+- Agent orchestration patterns
 - LangGraph
 - CrewAI
 - AutoGen
 
-> MCP is now grouped with Agentic AI because it is most useful when studied as part of the tool-and-context architecture of modern agent systems.
+> MCP is grouped with Agentic AI because it is best understood in the context of tool use, external capabilities, and context exchange in modern AI systems.
 
 ---
 
-## Phase 8 — Prompt Engineering & Evaluation ⬜
+## Phase 9 — Prompt Engineering & Evaluation ⬜
 
 Learn how to control model behavior and measure whether the system actually works.
 
 - Prompt Design
-- Few-Shot Prompting
+- Zero-Shot / Few-Shot Prompting
 - Chain-of-Thought concepts
 - ReAct
 - Structured Outputs
 - Prompt Evaluation
 - LLM-as-a-Judge
-- BLEU / ROUGE / BERTScore
+- BLEU
+- ROUGE
+- BERTScore
 - RAGAS
 - DeepEval
 - Hallucination Evaluation
@@ -278,11 +352,11 @@ Learn how to control model behavior and measure whether the system actually work
 
 ---
 
-## Phase 9 — Production GenAI & Cloud ⬜
+## Phase 10 — Production GenAI & Cloud ⬜
 
 Learn the engineering required to run GenAI systems reliably, securely, and economically.
 
-- FastAPI for LLM APIs
+- LLM API serving concepts
 - vLLM
 - TensorRT-LLM
 - Ray Serve
@@ -299,11 +373,11 @@ Learn the engineering required to run GenAI systems reliably, securely, and econ
 - AWS Bedrock
 - Google Vertex AI
 
-> Cloud is now combined with Production GenAI because deployment, observability, security, scaling, and cloud services are part of the same production-engineering problem.
+> Cloud remains part of Production GenAI because deployment, observability, scaling, security, and managed AI platforms belong to the same production-engineering problem.
 
 ---
 
-## Phase 10 — GenAI System Design ⬜
+## Phase 11 — GenAI System Design ⬜
 
 Bring everything together for Senior / Staff / Principal-level architecture interviews.
 
@@ -323,36 +397,19 @@ Bring everything together for Senior / Staff / Principal-level architecture inte
 
 ---
 
-# 💻 Parallel Engineering Track
+# 📂 Repository Scope
 
-Coding practice should not wait until the final phase. It runs **in parallel with the GenAI curriculum**.
+This repository is intentionally focused on **Generative AI learning**.
 
-```text
-Python
-├── Core Python
-├── Async Programming
-├── FastAPI
-├── Design Patterns
-└── Testing
+General Python/backend interview preparation — such as Python internals, DSA, FastAPI, SQL, design patterns, and general backend engineering — will live in a **separate repository**.
 
-Problem Solving
-├── DSA
-└── SQL
-
-Engineering
-├── Git
-├── Docker
-├── Kubernetes
-└── API / Backend Design
-```
-
-This keeps interview coding and backend engineering skills growing alongside GenAI depth.
+This keeps the GenAI bootcamp focused and prevents the curriculum from becoming unnecessarily large.
 
 ---
 
 # 📂 Repository Structure
 
-The repository is now organized around **major learning stages as top-level modules**.
+The repository is organized around **major GenAI learning stages as top-level modules**.
 
 ```text
 genai-interview-bootcamp/
@@ -379,10 +436,10 @@ genai-interview-bootcamp/
 │   ├── 01_Attention_Motivation/
 │   └── 02_Attention_Mechanism/
 │
-└── future top-level modules are added as the bootcamp progresses
+└── future top-level GenAI modules are added as the bootcamp progresses
 ```
 
-The structure intentionally mirrors the learning journey:
+The planned top-level progression is:
 
 ```text
 01_DeepLearning
@@ -393,9 +450,19 @@ The structure intentionally mirrors the learning journey:
       ↓
 04_Transformers
       ↓
-05_LLMs
+05_NLP_Foundations
       ↓
-...
+06_LLM_Internals
+      ↓
+07_RAG
+      ↓
+08_Agentic_AI_And_MCP
+      ↓
+09_Prompt_Engineering_And_Evaluation
+      ↓
+10_Production_GenAI_And_Cloud
+      ↓
+11_GenAI_System_Design
 ```
 
 ---
@@ -507,21 +574,7 @@ For the full curriculum and historical learning trail, use:
 
 This is a personal learning project built from the perspective of an experienced software engineer moving deeper into **Generative AI architecture and engineering**.
 
-The repository is intentionally designed to connect:
-
-```text
-Mathematics
-+
-Machine Learning
-+
-Python / Backend Engineering
-+
-Cloud / Production Engineering
-+
-System Design
-```
-
-because Senior and Staff GenAI roles require all of them together.
+The repository itself remains focused on GenAI. Broader Python/backend interview preparation will be maintained separately.
 
 ---
 
