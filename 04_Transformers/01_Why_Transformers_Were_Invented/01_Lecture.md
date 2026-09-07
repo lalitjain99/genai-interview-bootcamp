@@ -1,225 +1,370 @@
 # 📘 Why Transformers Were Invented
 
-## 🌟 Introduction
-
-We have reached one of the most important transitions in modern AI.
-
-So far, our sequence-modeling journey has been:
-
-```text
-RNN
-↓
-LSTM / GRU
-↓
-Encoder–Decoder
-↓
-Seq2Seq
-↓
-Attention
-```
-
-Each architecture solved a problem created by the previous one.
-
-RNNs gave neural networks memory.
-
-LSTMs and GRUs improved long-term information flow.
-
-Encoder–Decoder architectures allowed one sequence to be transformed into another.
-
-Attention solved the fixed-context bottleneck by allowing the decoder to dynamically retrieve information from encoder states.
-
-But at the end of our Attention module, one major problem remained:
-
-> **The architecture was still recurrent.**
-
-The system still looked approximately like:
-
-```text
-RNN / LSTM Encoder
-+
-Attention
-+
-RNN / LSTM Decoder
-```
-
-So researchers asked a much more radical question:
-
-> **If attention is already capable of directly connecting relevant representations, do we really need recurrence at all?**
-
-That question eventually led to:
-
-# **The Transformer**
+## *The Moment Attention Stopped Being an Add-On and Became the Architecture*
 
 ---
 
 # 🎯 Learning Objectives
 
-By the end of this lecture, you should be able to explain:
+By the end of this lecture, you should be able to answer:
 
-* why RNN-based architectures were difficult to scale;
-* why LSTM and GRU did not solve the parallelism problem;
-* why classical attention was not enough by itself;
-* what sequential dependency means computationally;
-* why long dependency paths matter;
-* why GPUs favor parallel matrix operations;
-* how attention suggested a way to remove recurrence;
-* the difference between cross-attention and self-attention;
-* why removing recurrence creates a positional-information problem;
-* what the Transformer fundamentally changed;
-* what Transformers improved;
-* what Transformers did **not** magically solve;
-* why the Transformer architecture was such a major turning point.
-
----
-
-# 📖 Part 1 — Start from the RNN
-
-Recall the basic RNN:
-
-```text
-h_t
-=
-f(x_t, h_(t-1))
-```
-
-The current hidden state depends on:
-
-```text
-current input
-+
-previous hidden state
-```
-
-So for a sequence:
-
-```text
-x_1, x_2, x_3, x_4
-```
-
-we compute:
-
-```text
-x_1
-↓
-h_1
-
-h_1 + x_2
-↓
-h_2
-
-h_2 + x_3
-↓
-h_3
-
-h_3 + x_4
-↓
-h_4
-```
-
-The important structural fact is:
-
-```text
-h_4
-cannot be computed
-before h_3
-```
-
-and:
-
-```text
-h_3
-cannot be computed
-before h_2
-```
-
-This creates a:
-
-# **Sequential Dependency Chain**
+* What problem had Attention already solved?
+* What important problem still remained after Attention?
+* Why was recurrence still a limitation?
+* Why didn't LSTM or GRU solve that limitation?
+* How does an RNN move information between distant words?
+* Why are long dependency paths undesirable?
+* What important clue did classical Attention give researchers?
+* What happens if tokens are allowed to communicate directly?
+* Why does removing recurrence improve training parallelism?
+* What new problem appears when recurrence is removed?
+* What fundamental idea led to the Transformer?
+* Why was the Transformer a natural next step rather than a completely unrelated invention?
 
 ---
 
-# 🧠 Part 2 — Why Sequential Dependency Matters
+# 🌍 Chapter 1 — Where We Left Off
 
-Suppose we have:
+Let's continue exactly where our Attention module ended.
+
+Before Attention, Seq2Seq looked like this:
 
 ```text
-1000 tokens
+Source Sequence
+      ↓
+Encoder
+      ↓
+One Fixed Context Vector
+      ↓
+Decoder
 ```
 
-An RNN conceptually processes:
+The entire source sequence had to be compressed into:
 
 ```text
-token 1
-↓
-token 2
-↓
-token 3
-↓
+one vector
+```
+
+That was the **Context Vector Bottleneck**.
+
+Then Attention changed everything.
+
+Instead of throwing away the intermediate encoder states:
+
+```text
+h₁
+h₂
+h₃
 ...
-↓
-token 1000
+hₙ
 ```
 
-Even if all 1000 input tokens are already available at training time, the recurrent states cannot generally be computed independently.
+we kept all of them.
 
-That means the architecture cannot fully exploit:
+At every decoder timestep, the decoder could ask:
 
-> parallel computation across sequence positions.
+> Which encoder states contain the information I need right now?
+
+So instead of one fixed context:
+
+```text
+c
+```
+
+we created a dynamic context:
+
+```text
+c₁
+c₂
+c₃
+...
+```
+
+using:
+
+```text
+c_t = Σᵢ α_(t,i) hᵢ
+```
+
+This solved a major problem.
+
+The decoder now had:
+
+# **Dynamic Source Access**
 
 ---
 
-# ⭐ Part 3 — The Hardware Problem
+# 🤔 But Wait...
 
-Modern GPUs and TPUs are extremely good at operations like:
-
-```text
-Large Matrix
-×
-Large Matrix
-```
-
-because thousands of numerical operations can happen in parallel.
-
-They prefer computation shaped like:
+Our architecture still looked like this:
 
 ```text
-many operations
-at the same time
+Source
+   ↓
+RNN / LSTM Encoder
+   ↓
+h₁  h₂  h₃ ... hₙ
+       ↑
+    Attention
+       ↑
+RNN / LSTM Decoder
 ```
 
-rather than:
+Attention had improved the communication between:
 
 ```text
-operation 1
-↓
-wait
-↓
-operation 2
-↓
-wait
-↓
-operation 3
+Decoder
+↕
+Encoder
 ```
 
-RNN recurrence therefore creates an important mismatch:
+But something fundamental had **not changed**.
 
-```text
-GPU
-→ wants parallel work
+The encoder was still recurrent.
 
-RNN
-→ imposes sequential dependencies
-```
+The decoder was still recurrent.
+
+So before moving forward, we need to ask:
+
+> **What is still wrong with recurrence?**
 
 ---
 
-# 📖 Part 4 — Why Didn't LSTM Solve This?
+# 🌍 Chapter 2 — A Simple Sentence
 
-LSTM fixed an important RNN weakness:
+Consider this sentence:
 
-> poor long-term information flow.
+> **The animal didn't cross the street because it was tired.**
 
-Its cell state:
+Focus on the word:
+
+```text
+it
+```
+
+To understand the meaning of:
+
+```text
+it
+```
+
+we need to know what it refers to.
+
+In this sentence:
+
+```text
+it
+↓
+animal
+```
+
+So the representation of `it` should somehow use information from:
+
+```text
+animal
+```
+
+No problem.
+
+Our RNN can do that.
+
+But let's look at **how**.
+
+---
+
+# 🌍 Chapter 3 — How an RNN Moves Information
+
+Suppose the words are processed from left to right.
+
+```text
+The
+ ↓
+animal
+ ↓
+didn't
+ ↓
+cross
+ ↓
+the
+ ↓
+street
+ ↓
+because
+ ↓
+it
+ ↓
+was
+ ↓
+tired
+```
+
+Recall:
+
+```text
+h_t = f(x_t, h_(t-1))
+```
+
+The hidden state for:
+
+```text
+animal
+```
+
+is passed into the next timestep.
+
+That information can then flow into:
+
+```text
+didn't
+```
+
+then:
+
+```text
+cross
+```
+
+then:
+
+```text
+the
+```
+
+then:
+
+```text
+street
+```
+
+then:
+
+```text
+because
+```
+
+and finally reach:
+
+```text
+it
+```
+
+Conceptually:
+
+```text
+animal
+   ↓
+didn't
+   ↓
+cross
+   ↓
+the
+   ↓
+street
+   ↓
+because
+   ↓
+it
+```
+
+The information can reach `it`.
+
+But notice something.
+
+It had to travel through:
+
+```text
+many intermediate states
+```
+
+before getting there.
+
+---
+
+# 🧠 Chapter 4 — The Real Problem Is the Path
+
+Imagine the important words are much farther apart.
+
+```text
+word 1
+```
+
+needs to influence:
+
+```text
+word 100
+```
+
+In an RNN:
+
+```text
+word 1
+   ↓
+word 2
+   ↓
+word 3
+   ↓
+word 4
+   ↓
+...
+   ↓
+word 100
+```
+
+The information passes through almost one hundred recurrent transitions.
+
+So the computational path between distant positions becomes long.
+
+We can think of it roughly as:
+
+```text
+distance between positions ↑
+        ↓
+dependency path ↑
+```
+
+For an RNN, a distant dependency can require roughly:
+
+```text
+O(T)
+```
+
+sequential steps.
+
+---
+
+# 💡 Why Is a Long Path a Problem?
+
+Every transition transforms the representation.
+
+So long-distance information must survive many transformations.
+
+That can make:
+
+* information preservation harder,
+* optimization harder,
+* long-range relationships harder to learn,
+* gradient flow more difficult.
+
+This is exactly why we previously needed ideas such as:
+
+```text
+LSTM
+GRU
+```
+
+They helped information survive these long recurrent paths.
+
+But they did not remove the paths themselves.
+
+---
+
+# 🌍 Chapter 5 — Didn't LSTM Already Solve This?
+
+This is the obvious question.
+
+We spent a lot of time learning LSTM.
+
+Its cell state allows information to flow more effectively:
 
 ```text
 c_t
@@ -229,731 +374,830 @@ f_t ⊙ c_(t-1)
 i_t ⊙ g_t
 ```
 
-creates a better path for information and gradients.
+So surely the problem is solved?
 
-But computationally:
+Not quite.
 
-```text
-c_t
-```
+LSTM improves:
 
-still depends on:
+# **how well information travels**
 
-```text
-c_(t-1)
-```
-
-and:
+But information still travels like this:
 
 ```text
-h_t
-```
-
-still depends on previous recurrent state.
-
-So the sequence is still:
-
-```text
-step 1
-→
-step 2
-→
-step 3
-→
+c₁
+↓
+c₂
+↓
+c₃
+↓
 ...
+↓
+c₁₀₀
 ```
 
-LSTM improved:
+To compute:
 
-# **memory**
+```text
+c₁₀₀
+```
 
-but did not solve:
+we still need:
 
-# **sequential computation**
+```text
+c₉₉
+```
+
+which requires:
+
+```text
+c₉₈
+```
+
+and so on.
+
+So LSTM solved:
+
+```text
+poor information flow
+```
+
+but it did not solve:
+
+```text
+sequential dependency
+```
 
 ---
 
-# 🧠 Part 5 — Same Problem with GRU
+# 💡 Connecting Back to Our Previous Modules
 
-GRU simplified the gating structure.
+Notice the pattern.
 
-But:
+### RNN
+
+```text
+Can model sequences
+↓
+But struggles with long-term dependencies
+```
+
+### LSTM / GRU
+
+```text
+Improves memory
+↓
+But still recurrent
+```
+
+### Attention
+
+```text
+Improves source accessibility
+↓
+But recurrence still remains
+```
+
+We have improved the architecture several times.
+
+But this dependency remains:
 
 ```text
 h_t
-```
-
-still depends on:
-
-```text
+depends on
 h_(t-1)
 ```
 
-So GRU also remains recurrent.
+---
 
-Therefore:
+# 🌍 Chapter 6 — Why Sequential Dependency Became a Bigger Problem
+
+Imagine training on a sentence with:
 
 ```text
-RNN
-LSTM
-GRU
+1000 tokens
 ```
 
-all share one fundamental architectural property:
+All 1000 input tokens are already available.
 
-> **sequence positions are processed through recurrent state dependencies.**
+But an RNN cannot simply calculate:
+
+```text
+h₁
+h₂
+h₃
+...
+h₁₀₀₀
+```
+
+independently.
+
+Why?
+
+Because:
+
+```text
+h₂ requires h₁
+
+h₃ requires h₂
+
+h₄ requires h₃
+```
+
+So the computation is inherently:
+
+```text
+Step 1
+↓
+Step 2
+↓
+Step 3
+↓
+...
+```
+
+This matters enormously when training large neural networks.
 
 ---
 
-# 📖 Part 6 — Bidirectional RNNs Did Not Solve It Either
+# 🌍 Chapter 7 — Think About the GPU
 
-BiRNN gives:
+Modern GPUs are incredibly powerful.
 
-```text
-forward recurrence
-+
-backward recurrence
-```
-
-This improves context because each position can incorporate:
+But they are especially powerful when we give them:
 
 ```text
-left context
-+
-right context
+many calculations
+that can happen together
 ```
-
-But both directions are still recurrent:
-
-```text
-→h_1 → →h_2 → →h_3
-```
-
-and:
-
-```text
-←h_3 → ←h_2 → ←h_1
-```
-
-So:
-
-```text
-Bidirectional
-≠
-Non-recurrent
-```
-
----
-
-# ⭐ Part 7 — Then Attention Arrived
-
-Classical Seq2Seq compressed the source into:
-
-```text
-one context vector
-```
-
-Attention instead kept:
-
-```text
-h_1, h_2, ..., h_T
-```
-
-and allowed a decoder state to retrieve relevant information:
-
-```text
-c_t
-=
-Σ_i α_(t,i) h_i
-```
-
-This was a major breakthrough.
-
-The decoder no longer needed to rely on:
-
-```text
-one fixed summary
-```
-
----
-
-# 🧠 Part 8 — What Attention Demonstrated
-
-Attention demonstrated something profound:
-
-> **A representation can directly inspect other representations and dynamically decide which ones are relevant.**
 
 For example:
 
 ```text
-decoder state
+Large Matrix × Large Matrix
+```
+
+can contain millions of multiplications.
+
+A GPU can execute many of them simultaneously.
+
+Now compare that with an RNN:
+
+```text
+Calculate h₁
+
+wait
+
+Calculate h₂
+
+wait
+
+Calculate h₃
+
+wait
+```
+
+The problem isn't simply:
+
+> RNNs perform calculations.
+
+Every model performs calculations.
+
+The problem is:
+
+> **later calculations depend on earlier calculations.**
+
+So the GPU cannot freely parallelize computation across sequence positions.
+
+---
+
+# 🧠 The Parallelism Problem
+
+RNN:
+
+```text
+Position 1
+    ↓
+Position 2
+    ↓
+Position 3
+    ↓
+Position 4
+```
+
+What we would prefer is something more like:
+
+```text
+Position 1    Position 2    Position 3    Position 4
+    ↓             ↓             ↓             ↓
+       process many positions together
+```
+
+But how can we do that?
+
+If we remove recurrence:
+
+```text
+h_t ← h_(t-1)
+```
+
+how will words communicate with one another?
+
+This sounds impossible.
+
+Until we remember something we already learned.
+
+---
+
+# 🌍 Chapter 8 — Attention Gave Us a Clue
+
+Let's go back to classical Attention.
+
+Suppose the decoder needs information from source position 3.
+
+Attention does not say:
+
+```text
+Decoder
 ↓
-compare with h_1
-compare with h_2
-compare with h_3
+Source 10
+↓
+Source 9
+↓
+Source 8
+↓
 ...
 ↓
-weighted combination
+Source 3
 ```
 
-This provided a new way to move information through a neural network.
-
-Not through:
-
-```text
-sequential recurrence
-```
-
-but through:
-
-```text
-direct relevance-based interaction
-```
-
----
-
-# 📖 Part 9 — But Classical Attention Was Still Attached to an RNN
-
-The architecture was still:
-
-```text
-Source
-↓
-RNN Encoder
-↓
-h_1 ... h_T
-
-             ↑
-          Attention
-             ↑
-
-Target
-↓
-RNN Decoder
-```
-
-Attention improved:
-
-```text
-decoder ↔ encoder communication
-```
-
-But recurrence still handled:
-
-```text
-source sequence modeling
-```
-
-and:
-
-```text
-target sequence modeling
-```
-
----
-
-# ⭐ Part 10 — The Critical Question
-
-This naturally creates the question:
-
-> **Why should source tokens communicate through recurrence if attention can connect representations directly?**
-
-Suppose we want token 10 to learn something from token 2.
-
-RNN-style:
-
-```text
-2
-→
-3
-→
-4
-→
-5
-→
-...
-→
-10
-```
-
-What if instead we allowed:
-
-```text
-2
-────────→
-10
-```
-
-directly?
-
-That is the conceptual leap toward:
-
-# **Self-Attention**
-
----
-
-# 🧠 Part 11 — From Decoder-to-Encoder Attention to Position-to-Position Attention
-
-Classical attention:
+Instead, it can directly calculate relevance between:
 
 ```text
 Decoder State
-↓ attends to
-Encoder States
+        ↕
+Encoder State h₃
 ```
-
-This is roughly:
-
-```text
-target representation
-→
-source representations
-```
-
-The new idea:
-
-```text
-Source Position
-↓ attends to
-Other Source Positions
-```
-
-Now:
-
-```text
-token
-→
-token
-```
-
-interactions can happen directly within the same sequence.
-
-This is:
-
-# **Self-Attention**
-
----
-
-# 📖 Part 12 — Why Is It Called "Self" Attention?
-
-Because the:
-
-```text
-querying representation
-```
-
-and the:
-
-```text
-representations being attended to
-```
-
-come from the same sequence.
 
 Conceptually:
 
 ```text
-Sequence
-↓
-positions attend to positions
-within that same sequence
+Decoder
+────────────────→ h₃
 ```
 
-For example:
+Attention created a **direct connection**.
+
+This is the crucial clue.
+
+---
+
+# 🤔 The Big Question
+
+Researchers could now ask:
+
+> **If a decoder state can directly attend to any encoder state...**
+
+why can't:
+
+> **one source position directly attend to another source position?**
+
+Instead of:
 
 ```text
-The animal didn't cross the street because it was tired.
-```
-
-When constructing the representation of:
-
-```text
+animal
+ ↓
+didn't
+ ↓
+cross
+ ↓
+the
+ ↓
+street
+ ↓
+because
+ ↓
 it
 ```
 
-the model may need information from:
+what if we allowed:
+
+```text
+animal
+────────────────────→ it
+```
+
+directly?
+
+Now we have something fundamentally different.
+
+---
+
+# 🌍 Chapter 9 — The Thought Experiment
+
+Consider again:
+
+> **The animal didn't cross the street because it was tired.**
+
+Suppose every word could look at every other word.
+
+For `it`:
+
+```text
+it
+↓
+look at "The"
+look at "animal"
+look at "didn't"
+look at "cross"
+look at "street"
+look at "because"
+look at "was"
+look at "tired"
+```
+
+Then `it` could ask:
+
+> Which of these words contains useful information for understanding me?
+
+Perhaps it gives high importance to:
 
 ```text
 animal
 ```
 
-Instead of passing that information token by token through recurrence, self-attention can create a more direct interaction.
+and lower importance to unrelated words.
+
+Conceptually:
+
+```text
+it
+     ↓
+compare with all words
+     ↓
+find relevant words
+     ↓
+collect information from them
+```
+
+Wait...
+
+Doesn't this sound familiar?
+
+It is exactly the idea we learned in Attention.
+
+Except previously:
+
+```text
+Decoder
+attended to
+Encoder states
+```
+
+Now:
+
+```text
+Token
+attends to
+tokens in the same sequence
+```
+
+This is the key idea behind:
+
+# **Self-Attention**
 
 ---
 
-# ⭐ Part 13 — Direct Long-Range Interaction
+# 🧠 Why "Self"?
 
-Suppose:
-
-```text
-token 1
-```
-
-needs information from:
+Because the attention happens:
 
 ```text
-token 100
+within the same sequence
 ```
 
-### RNN
-
-Conceptual dependency:
+Classical encoder-decoder attention:
 
 ```text
-1 → 2 → 3 → ... → 100
+Decoder Sequence
+        ↓
+attends to
+        ↓
+Encoder Sequence
 ```
 
-Path length:
+Self-Attention:
+
+```text
+Sequence
+   ↓
+attends to itself
+   ↓
+Same Sequence
+```
+
+For example:
+
+```text
+animal ────────────────→ it
+
+street ────────────────→ cross
+
+tired ─────────────────→ it
+```
+
+Different positions can directly exchange information.
+
+---
+
+# 🌍 Chapter 10 — Something Important Just Happened
+
+Previously, `animal` had to communicate with `it` through several recurrent states.
+
+```text
+animal
+→
+...
+→
+it
+```
+
+Now:
+
+```text
+animal
+────────→
+it
+```
+
+The dependency path has become dramatically shorter.
+
+For distant positions, an RNN might need:
 
 ```text
 O(T)
 ```
 
-### Self-Attention
+sequential transitions.
 
-Conceptually:
+A self-attention layer can potentially create a direct interaction in:
 
 ```text
-1 ─────────────→ 100
+one layer
 ```
 
-A direct relationship can be established within one attention layer.
-
-This dramatically shortens:
-
-# **dependency paths**
+This is a fundamental change.
 
 ---
 
-# 🧠 Part 14 — Why Shorter Dependency Paths Matter
-
-Long paths can make:
-
-* information propagation harder;
-* optimization more difficult;
-* long-range relationships harder to learn.
-
-A direct attention connection allows distant positions to exchange information without traversing every intermediate position.
-
-This is especially valuable for relationships like:
-
-```text
-pronoun ↔ noun
-
-subject ↔ verb
-
-question ↔ answer evidence
-
-entity ↔ later reference
-```
-
----
-
-# 📖 Part 15 — The Parallelism Breakthrough
-
-Now imagine all source tokens are already available:
-
-```text
-x_1
-x_2
-x_3
-...
-x_T
-```
-
-Instead of:
-
-```text
-compute h_1
-then h_2
-then h_3
-```
-
-we could let every position perform attention interactions in the same layer.
-
-Conceptually:
-
-```text
-position 1 ─┬─ position 2
-            ├─ position 3
-            └─ position 4
-
-position 2 ─┬─ position 1
-            ├─ position 3
-            └─ position 4
-
-...
-```
-
-Many of these operations can be expressed using:
-
-> large matrix multiplications.
-
-And that is exactly what modern accelerators are good at.
-
----
-
-# ⭐ Part 16 — The Fundamental Transformer Trade-Off
+# 💡 First Major Benefit — Shorter Dependency Paths
 
 RNN:
 
 ```text
-less all-pairs interaction
-+
-sequential computation
+A → B → C → D → E
 ```
 
-Self-attention:
+For A to affect E:
 
 ```text
-many pairwise interactions
-+
-high parallelism across positions
+4 intermediate transitions
 ```
 
-So Transformers do not simply make computation disappear.
-
-They exchange one bottleneck:
+Self-Attention:
 
 ```text
-sequential recurrence
+A ─────────────→ E
 ```
 
-for another:
+Direct interaction.
 
-```text
-pairwise attention computation
-```
+This makes long-range relationships much easier to access.
 
 ---
 
-# 📐 Part 17 — Self-Attention Pairwise Structure
+# 🌍 Chapter 11 — The Second Benefit Appears
 
-For a sequence length:
+Now notice something else.
 
-```text
-T
-```
-
-each position may compare against:
+In an RNN:
 
 ```text
-T
+h₂
 ```
 
-positions.
-
-So roughly:
+cannot exist before:
 
 ```text
-T × T
+h₁
 ```
 
-relationships are created.
+because:
+
+```text
+h₂ = f(x₂, h₁)
+```
+
+But with self-attention, suppose every token starts with its own representation.
+
+```text
+x₁
+x₂
+x₃
+x₄
+```
+
+All of these already exist.
+
+Each one can independently ask:
+
+```text
+Which other tokens matter to me?
+```
+
+So the model can calculate interactions for many positions together.
 
 Conceptually:
 
 ```text
-O(T²)
+x₁ ─┐
+x₂ ─┼──→ Attention
+x₃ ─┼──→ many positions processed together
+x₄ ─┘
 ```
 
-attention interactions.
-
-This will later become an important limitation of Transformers.
-
----
-
-# 🧠 Part 18 — Why Was This Still Attractive?
-
-Because modern accelerators are good at:
+Now sequence positions no longer have to wait for:
 
 ```text
-parallel matrix operations
+previous hidden state
 ```
 
-Even though self-attention performs many comparisons, those comparisons can be highly vectorized.
-
-So architecture design was no longer only about:
-
-> number of arithmetic operations.
-
-It was also about:
-
-> how efficiently hardware can execute those operations.
+before participating.
 
 ---
 
-# 📖 Part 19 — A Simple Hardware Analogy
+# ⭐ The Parallelism Breakthrough
 
-Imagine two jobs.
-
-### Job A
-
-1000 tasks, but each task waits for the previous one:
+The old architecture required:
 
 ```text
 1
-→
+↓
 2
-→
+↓
 3
-→
-...
-→
-1000
+↓
+4
 ```
 
-### Job B
+The new idea allows something closer to:
 
-1,000,000 small tasks, but many can happen simultaneously.
+```text
+1     2     3     4
+↓     ↓     ↓     ↓
+Attention interactions
+processed together
+```
 
-With massively parallel hardware, Job B can sometimes be more attractive despite having more total interactions.
+And those interactions can be implemented largely through:
 
-That is part of the intuition behind Transformer efficiency.
+```text
+matrix multiplication
+```
+
+which GPUs handle extremely well.
+
+Now we have solved a major architectural limitation of RNNs.
 
 ---
 
-# ⭐ Part 20 — What Did the Transformer Remove?
+# 🌍 Chapter 12 — So Why Not Remove Recurrence?
 
-The Transformer removed recurrence as the primary sequence-processing mechanism.
+At this point, the idea becomes almost unavoidable.
+
+If Attention can:
+
+* connect distant positions directly,
+* move information between tokens,
+* create contextual representations,
+* and allow much more parallel processing,
+
+then ask:
+
+> **Why do we still need an RNN to carry information token by token?**
 
 Instead of:
 
 ```text
-h_t
-=
-f(h_(t-1), x_t)
+RNN
++
+Attention
 ```
 
-the architecture relies on blocks involving:
+what if we build the sequence model around:
 
 ```text
 Attention
-+
-Feed-Forward Network
-+
-Residual Connections
-+
-Normalization
 ```
 
-Sequence positions are contextualized through:
+itself?
 
-> attention-based interactions.
+This was the revolutionary idea.
 
 ---
 
-# 📖 Part 21 — The Famous Architectural Shift
+# 🚀 The Transformer
 
-Old sequence modeling:
+The Transformer removed recurrence from the core sequence-processing architecture.
 
-```text
-Recurrence
-is the core
-
-Attention
-is an add-on
-```
-
-Transformer:
+Instead of:
 
 ```text
-Attention
-becomes the core interaction mechanism
+Token
+↓
+Recurrent State
+↓
+Next Recurrent State
+↓
+Next Recurrent State
 ```
 
-This is the fundamental conceptual change.
+the model could use:
+
+```text
+Token Representations
+↓
+Attention-Based Interaction
+↓
+New Contextual Representations
+```
+
+The architecture was no longer centered around:
+
+```text
+passing a hidden state forward
+```
+
+It was centered around:
+
+```text
+letting positions directly retrieve
+relevant information from other positions
+```
 
 ---
 
-# 🧠 Part 22 — But Removing Recurrence Creates a Problem
+# 🧠 The Fundamental Shift
 
-RNNs naturally process:
+RNN philosophy:
+
+> **Carry information through the sequence.**
+
+Transformer philosophy:
+
+> **Directly retrieve relevant information from the sequence.**
+
+This is one of the most useful mental models for understanding the architectural transition.
+
+---
+
+# 🌍 Chapter 13 — But We Just Created a New Problem
+
+This seems perfect.
+
+Remove recurrence.
+
+Let all words interact directly.
+
+Process them in parallel.
+
+Done?
+
+Not quite.
+
+Recall something recurrence gave us automatically.
+
+Consider:
 
 ```text
-token 1
-then
-token 2
-then
-token 3
-```
-
-Therefore sequence order is built into the computation.
-
-But suppose self-attention receives:
-
-```text
-I love AI
+Dog bites man
 ```
 
 and:
 
 ```text
-AI love I
+Man bites dog
 ```
 
-If the model only sees token representations and pairwise similarity:
+They contain exactly the same words.
 
-> how does it know which token comes first?
+But their meaning is completely different because:
+
+# **order matters**
+
+An RNN processes:
+
+```text
+token 1
+then token 2
+then token 3
+```
+
+So order is naturally part of its computation.
+
+But if we remove recurrence and process token representations together:
+
+```text
+Dog     bites     man
+```
+
+how does the model know:
+
+```text
+Dog is position 1
+
+bites is position 2
+
+man is position 3
+```
+
+Attention alone does not automatically provide that information.
 
 ---
 
-# ⭐ Part 23 — Attention Alone Does Not Encode Order Automatically
+# 💡 A New Problem Appears
 
-A plain attention operation does not inherently know:
+By removing recurrence, we gain:
 
 ```text
-position 1
-position 2
-position 3
+parallelism
++
+short dependency paths
 ```
 
-Removing recurrence removes the natural ordering mechanism.
+but lose:
 
-Therefore the Transformer needs an explicit way to represent:
+```text
+built-in sequential ordering
+```
+
+Therefore the architecture needs another mechanism to represent:
 
 # **Position**
 
-This will later lead to:
+This will eventually lead to:
 
 # **Positional Encoding**
 
+Notice the pattern.
+
+We solved one limitation.
+
+That immediately exposed another.
+
+Exactly like our earlier modules.
+
 ---
 
-# 📖 Part 24 — Another Question: How Do Tokens Decide Relevance?
+# 🌍 Chapter 14 — And Another Question Remains
 
-Suppose the word:
+We have said:
 
-```text
-bank
-```
+> every token can look at every other token.
 
-appears in:
+But how?
 
-```text
-I deposited money in the bank.
-```
-
-The representation needs information from:
+Take the word:
 
 ```text
-money
-deposited
+it
 ```
 
-How should `bank` determine what other words are relevant?
-
-We need representations that express different roles such as:
+How does it decide that:
 
 ```text
-What am I looking for?
-
-What information do I contain?
-
-What information should I contribute?
+animal
 ```
 
-These questions eventually lead to:
+is more relevant than:
+
+```text
+street
+```
+
+How does one token express:
+
+> **What am I looking for?**
+
+And how does another token express:
+
+> **What information do I contain?**
+
+We don't know yet.
+
+We have only discovered the architectural idea.
+
+That missing mechanism will eventually lead us to:
 
 ```text
 Query
@@ -961,974 +1205,431 @@ Key
 Value
 ```
 
-But we will not jump there yet.
+But introducing those now would be too early.
+
+First we need to properly understand:
+
+# **Self-Attention**
 
 ---
 
-# 🧠 Part 25 — Why We Should Learn Self-Attention Before Q/K/V
+# 🧠 Chapter 15 — The Engineering Progression
 
-The most important concept first is:
+Notice how we arrived here.
 
-> **A sequence position can dynamically retrieve information from other positions in the same sequence.**
+We did **not** start by saying:
 
-Only after that intuition is clear should we ask:
+> “Let's invent Transformers.”
 
-> How is the compatibility actually parameterized?
-
-That leads naturally to Query, Key, and Value.
-
-So our progression will be:
+Instead:
 
 ```text
-Why Transformer?
-↓
+RNN
+        ↓
+Can model sequence
+        ↓
+But long-term information is difficult
+        ↓
+LSTM / GRU
+        ↓
+Better memory
+        ↓
+But Seq2Seq compresses source into one context
+        ↓
+Attention
+        ↓
+Dynamic source access
+        ↓
+But encoder/decoder are still recurrent
+        ↓
+Why should tokens communicate sequentially?
+        ↓
+Attention already proves direct retrieval works
+        ↓
+Let tokens directly attend to other tokens
+        ↓
 Self-Attention
-↓
-Query / Key / Value
-↓
-Scaled Dot-Product Attention
+        ↓
+Recurrence may no longer be necessary
+        ↓
+Transformer
 ```
+
+This is the Transformer story.
 
 ---
 
-# ⭐ Part 26 — Transformer Architecture at a High Level
+# ⭐ Chapter 16 — What Transformer Actually Improved
 
-Without diving into details yet, a Transformer layer broadly does:
+The Transformer architecture gave us several major advantages.
 
-```text
-Input Token Representations
-↓
-Attention
-↓
-Residual + Normalization
-↓
-Feed-Forward Network
-↓
-Residual + Normalization
-↓
-Contextualized Representations
-```
+## 1. Better Training Parallelism
 
-Multiple such blocks can be stacked.
-
----
-
-# 📖 Part 27 — What Does Attention Do?
-
-Attention primarily enables:
-
-```text
-token-to-token interaction
-```
-
----
-
-# 📖 Part 28 — What Does the Feed-Forward Network Do?
-
-After tokens exchange information through attention, each position passes through a neural network.
-
-Conceptually:
-
-```text
-Attention
-→ gather relevant information
-
-FFN
-→ transform/process that information
-```
-
-We will study this carefully later.
-
----
-
-# 📖 Part 29 — What Do Residual Connections Do?
-
-We already learned residual connections in Deep Learning.
-
-Recall:
-
-```text
-y
-=
-F(x) + x
-```
-
-Transformers heavily reuse this idea.
-
-Residual connections help:
-
-* preserve information;
-* stabilize training;
-* train deeper networks.
-
-Our earlier Deep Learning module now connects directly to Transformers.
-
----
-
-# 🧠 Part 30 — What Does Layer Normalization Do?
-
-Deep architectures need stable activations.
-
-Transformers use:
-
-# **Layer Normalization**
-
-around major sublayers.
-
-Later we will study exactly:
-
-* what it normalizes;
-* why BatchNorm is less natural here;
-* Pre-LN vs Post-LN.
-
----
-
-# ⭐ Part 31 — Why Multiple Attention Heads?
-
-One relationship might be:
-
-```text
-pronoun → noun
-```
-
-Another:
-
-```text
-verb → subject
-```
-
-Another:
-
-```text
-word → nearby modifier
-```
-
-Using one attention mechanism may force all relationships into one interaction space.
-
-A natural idea is:
-
-> perform several attention operations in parallel.
-
-This leads to:
-
-# **Multi-Head Attention**
-
----
-
-# 📖 Part 32 — Why Feed-Forward Layers Are Still Needed
-
-Attention primarily mixes information:
-
-```text
-between positions
-```
-
-But we also need rich nonlinear transformation:
-
-```text
-within each position's representation
-```
-
-That is provided by the feed-forward network.
-
-This gives a useful early mental model:
-
-```text
-Attention
-→ communication
-
-FFN
-→ computation
-```
-
-This is simplified, but very useful.
-
----
-
-# 🧠 Part 33 — Transformer Encoder
-
-At a high level:
-
-```text
-Input
-↓
-Token Embeddings
-+
-Position Information
-↓
-Transformer Encoder Layers
-↓
-Contextualized Token Representations
-```
-
-Each source position can incorporate information from other source positions.
-
----
-
-# 📖 Part 34 — Transformer Decoder
-
-The decoder must generate:
-
-```text
-token by token
-```
-
-and must not look at future target tokens.
-
-So it needs:
-
-```text
-masked / causal attention
-```
-
-Conceptually:
-
-```text
-token t
-can see
-tokens < t
-
-but not
-future tokens
-```
-
-This will later become:
-
-# **Causal Attention**
-
----
-
-# ⭐ Part 35 — Transformer Does Not Mean All Generation Is Parallel
-
-This is a critical misconception.
-
-During training, target tokens are known, so masked attention over many target positions can be computed in parallel.
-
-During autoregressive inference:
-
-```text
-generate token 1
-↓
-generate token 2
-↓
-generate token 3
-```
-
-still happens sequentially.
-
-So Transformers dramatically improve:
-
-> training parallelism
-
-but autoregressive generation can still be sequential.
-
----
-
-# 🧠 Part 36 — Training vs Inference
-
-### Transformer Training
-
-Many token positions:
-
-```text
-can be processed together
-```
-
-with causal masking where necessary.
-
-### Autoregressive Inference
-
-Future tokens do not exist yet.
-
-Therefore:
+RNN:
 
 ```text
 token 1
-→ token 2
-→ token 3
+↓
+token 2
+↓
+token 3
 ```
 
-remains sequential.
-
-This distinction will become extremely important when we discuss:
+Transformer-style processing:
 
 ```text
-KV Cache
+token 1    token 2    token 3
+   ↓          ↓          ↓
+process many positions together
 ```
-
-later in LLM Internals.
 
 ---
 
-# 📖 Part 37 — Transformer Encoder vs Decoder Roles
+## 2. Shorter Long-Range Paths
 
-Transformer architecture introduced both:
-
-```text
-Encoder
-```
-
-and:
+RNN:
 
 ```text
-Decoder
+1 → 2 → 3 → ... → 100
 ```
 
-stacks.
-
-Later models use these pieces differently.
-
-For example:
+Attention-based interaction:
 
 ```text
-BERT
-→ encoder-focused
-
-GPT
-→ decoder-only
-
-T5
-→ encoder-decoder
+1 ─────────────────→ 100
 ```
-
-But we will not jump into model families until we understand the core Transformer block.
 
 ---
 
-# ⭐ Part 38 — Why Transformers Scaled Better
+## 3. Better Fit for GPUs / TPUs
 
-Several factors worked together:
+Large attention calculations can be expressed using:
 
 ```text
-No recurrent sequence dependency
-+
-Parallel token processing during training
-+
-Large matrix operations
-+
-Shorter dependency paths
-+
-Stackable architecture
+matrix operations
 ```
 
-These properties made Transformers highly suitable for:
-
-* larger datasets;
-* larger models;
-* accelerator hardware;
-* large-scale pretraining.
+which modern accelerators execute efficiently.
 
 ---
 
-# 🧠 Part 39 — Scaling Became a Major Advantage
+## 4. Easier Scaling
 
-Once sequence processing became highly parallelizable, researchers could train:
+Greater training parallelism made it practical to train:
 
 ```text
+more data
++
 larger models
 +
 more layers
-+
-more data
 ```
 
-more effectively.
-
-This eventually enabled the scaling trend leading toward:
-
-```text
-large pretrained language models
-```
-
-But Transformers and LLMs are not synonymous.
-
-A Transformer is:
-
-> an architecture.
-
-An LLM is:
-
-> a large language model, commonly but not necessarily built from Transformer architecture.
+This later became extremely important for large-scale language models.
 
 ---
 
-# 🚨 Part 40 — Transformer ≠ LLM
+# ⚠️ Chapter 17 — But Transformers Are Not Magic
 
-Do not say:
-
-> "Transformer means LLM."
-
-Transformers are used for:
-
-* language
-* vision
-* audio
-* multimodal systems
-* biological sequences
-* time-series applications
-
-And small Transformer models are also possible.
-
-So:
+We should not repeat the mistake of thinking:
 
 ```text
 Transformer
-=
-architecture
-
-LLM
-=
-model category / scale / language objective
+↓
+Everything solved
 ```
 
----
+Removing recurrence creates new trade-offs.
 
-# 📖 Part 41 — Why Transformers Were a Turning Point
-
-Before Transformers, neural sequence modeling was dominated by:
+Suppose there are:
 
 ```text
-recurrent processing
+T
 ```
 
-The Transformer demonstrated that:
+tokens.
 
-> recurrence was not necessary for high-quality sequence transduction.
-
-Attention-based layers could perform the core sequence modeling.
-
-That changed the direction of NLP research dramatically.
-
----
-
-# ⭐ Part 42 — The Core Design Principle
-
-The Transformer asks:
-
-> Instead of carrying information forward one timestep at a time, can every token directly gather information from relevant tokens?
-
-RNN mental model:
+If every token interacts with every token, we have approximately:
 
 ```text
-Carry information through sequence
+T × T
 ```
 
-Transformer mental model:
+relationships.
+
+So full self-attention has roughly:
 
 ```text
-Retrieve relevant information directly
+O(T²)
 ```
 
----
-
-# 🧠 Part 43 — Another Useful Comparison
-
-## RNN
-
-```text
-information travels
-```
-
-through recurrent hidden states.
-
-## Transformer
-
-```text
-information is retrieved
-```
-
-through attention interactions.
-
-This is simplified but captures an important architectural shift.
-
----
-
-# 📖 Part 44 — RNN Communication Graph
+pairwise interactions.
 
 For:
 
 ```text
-A B C D
+T = 1000
 ```
 
-a forward RNN gives:
+that means:
 
 ```text
-A → B → C → D
-```
-
-To connect A and D:
-
-```text
-A
-→ B
-→ C
-→ D
-```
-
----
-
-# 📖 Part 45 — Self-Attention Communication Graph
-
-Self-attention can conceptually produce:
-
-```text
-A ↔ B
-A ↔ C
-A ↔ D
-B ↔ C
-B ↔ D
-C ↔ D
-```
-
-within one layer.
-
-So distant relationships become:
-
-> directly accessible.
-
----
-
-# ⭐ Part 46 — But Full Connectivity Costs Something
-
-For four tokens:
-
-```text
-4 × 4
-=
-16
-```
-
-attention relationships.
-
-For:
-
-```text
-1000 tokens
-```
-
-approximately:
-
-```text
-1,000 × 1,000
+1000 × 1000
 =
 1,000,000
 ```
 
-pairwise score relationships.
+token-pair score relationships.
 
-This eventually becomes one of the biggest Transformer scaling challenges.
+So Transformers trade:
+
+```text
+sequential recurrence
+```
+
+for:
+
+```text
+many parallel pairwise interactions
+```
 
 ---
 
-# 🧠 Part 47 — Architecture Is Always Trade-Offs
+# 🧠 Architecture Is Always About Trade-Offs
 
 RNN:
 
 ```text
 Sequential
 +
-long paths
+long dependency paths
 +
-less parallelism
+limited sequence parallelism
 ```
 
 Transformer:
 
 ```text
-Parallelizable
+parallelizable
 +
-short paths
+short dependency paths
 +
 many pairwise interactions
 ```
 
-Neither architecture violates computational reality.
+The Transformer did not eliminate computational cost.
 
-The Transformer simply makes a trade-off much better aligned with modern hardware and large-scale learning.
+It changed the computation into a form that:
 
----
-
-# 📖 Part 48 — What Problems Did Transformers Improve?
-
-Transformers substantially improved:
-
-### 1. Training Parallelism
-
-Tokens can be processed together.
-
-### 2. Long-Range Interaction
-
-Distant positions can interact directly.
-
-### 3. Dependency Path Length
-
-Direct attention creates shorter paths.
-
-### 4. Hardware Utilization
-
-Matrix-heavy computation fits GPUs/TPUs.
-
-### 5. Model Scalability
-
-Architecture scales effectively to large models and datasets.
+> maps much better to modern parallel hardware.
 
 ---
 
-# ⚠️ Part 49 — What Problems Did Transformers NOT Remove?
+# ⚠️ Chapter 18 — Training Parallelism Does Not Mean Parallel Generation
 
-Transformers still have:
+Another important distinction.
 
-### 1. Attention Complexity
+During training, the complete sequence is already known.
 
-Full self-attention approximately:
+So many positions can be processed simultaneously.
+
+But during autoregressive generation:
 
 ```text
-O(T²)
+Generate token 1
+↓
+Generate token 2
+↓
+Generate token 3
 ```
 
-### 2. Attention Memory
+future tokens do not exist yet.
 
-The attention matrix grows:
+Therefore models like GPT still generate:
+
+> token by token.
+
+So:
 
 ```text
-T × T
+Transformer
+≠
+all computation is always parallel
 ```
 
-### 3. Position Information Requirement
+The big breakthrough was mainly:
 
-Without recurrence, order must be represented explicitly.
-
-### 4. Autoregressive Inference
-
-Decoder-only generation remains sequential.
-
-### 5. Finite Context
-
-Models cannot process unlimited sequences.
+> **parallel sequence processing during training and within available context.**
 
 ---
 
-# ⭐ Part 50 — The Transformer Motivation in One Diagram
+# 🧠 Engineer's Insight
+
+Look at the pattern that has followed us through this bootcamp.
 
 ```text
+Perceptron
+↓
+Cannot model nonlinear boundaries
+↓
+Hidden Layers
+
+Hidden Layers
+↓
+Still linear without nonlinear activation
+↓
+Activation Functions
+
 RNN
 ↓
-Sequential sequence processing
+Long-term memory problems
 ↓
-Long dependency paths
-↓
-Limited parallelism
-
 LSTM / GRU
+
+Seq2Seq
 ↓
-Better memory
-but still recurrent
+Fixed Context Bottleneck
+↓
+Attention
 
 Attention
 ↓
 Dynamic source access
-but still attached to recurrence
-
-Key Question
+but recurrence remains
 ↓
-Can attention replace recurrence?
+Self-Attention / Transformer
+```
 
+This is the mindset we want.
+
+Architectures are not random collections of components.
+
+Each new idea exists because:
+
+> **something in the previous architecture was not good enough.**
+
+---
+
+# 🧠 First-Principles Chain
+
+```text
+What did Attention solve?
+        │
+        ▼
+The fixed-context bottleneck.
+        │
+        ▼
+What still remained?
+        │
+        ▼
+The encoder and decoder were recurrent.
+        │
+        ▼
+Why is recurrence a problem?
+        │
+        ▼
+Each state depends on the previous state.
+        │
+        ▼
+What does that cause?
+        │
+        ├───────────────┐
+        ▼               ▼
+Sequential         Long dependency
+computation            paths
+        │               │
+        └───────┬───────┘
+                ▼
+Can we avoid passing information
+one position at a time?
+                │
+                ▼
+What did Attention already teach us?
+                │
+                ▼
+Representations can retrieve
+information directly.
+                │
+                ▼
+Can tokens retrieve information
+from other tokens directly?
+                │
+                ▼
 Self-Attention
-↓
-Direct token-to-token interaction
-
+                │
+                ▼
+Do we still need recurrence
+as the core sequence mechanism?
+                │
+                ▼
+No.
+                │
+                ▼
 Transformer
-↓
-Parallel sequence processing
-+
-short dependency paths
-+
-attention-based sequence modeling
 ```
 
 ---
 
-# 📖 Part 51 — Our Transformer Learning Path
+# 🎯 Key Takeaways
 
-We will build the Transformer from first principles.
+* Classical Attention solved the fixed-context bottleneck.
+* But classical Attention was still attached to recurrent encoders and decoders.
+* RNN, LSTM, and GRU all require sequential state dependencies.
+* LSTM improves memory but does not remove recurrence.
+* Long-distance information in RNNs travels through long computational paths.
+* Recurrent dependencies limit parallel processing across sequence positions.
+* Classical Attention proved that direct relevance-based retrieval between representations works.
+* This inspired the idea of allowing tokens in the same sequence to interact directly.
+* That idea is called **Self-Attention**.
+* Self-Attention creates shorter dependency paths and much greater training parallelism.
+* Removing recurrence creates a new problem: token order is no longer inherently represented.
+* Full self-attention also introduces roughly `O(T²)` pairwise interactions.
+* The Transformer was therefore not a magical solution; it was a different and highly useful architectural trade-off.
 
-Not by starting with this:
+---
+
+# 🔜 Looking Ahead
+
+We have now reached the key idea:
+
+> **Instead of passing information token by token, allow every token to directly retrieve information from other tokens.**
+
+But we have only described the idea.
+
+We still don't know **how** it works.
+
+Take:
+
+> **The animal didn't cross the street because it was tired.**
+
+For the word:
 
 ```text
-QK^T / √d_k
+it
 ```
 
-That would be a mistake.
-
-Instead:
+how does the model decide that:
 
 ```text
-Why Transformer?
-↓
-Why Self-Attention?
-↓
-What does one token need from another?
-↓
-Query / Key / Value
-↓
-Dot Product
-↓
-Scaling
-↓
-Softmax
-↓
-Weighted Values
-↓
-Multi-Head Attention
-↓
-Position
-↓
-FFN
-↓
-Residual
-↓
-LayerNorm
-↓
-Encoder
-↓
-Decoder
+animal
 ```
 
-Only then will the complete architecture feel natural.
+is important?
 
----
-
-# 🧠 Part 52 — The Most Important Concept Before Moving On
-
-Do not memorize:
-
-> “Transformer uses attention instead of RNN.”
-
-Understand **why**.
-
-The progression is:
+Why should:
 
 ```text
-Recurrence
-↓
-Good sequence modeling
-but poor sequence parallelism
-
-Attention
-↓
-Proves direct representation interaction works
-
-Self-Attention
-↓
-Use direct interaction inside a sequence
-
-Transformer
-↓
-Build the architecture around that interaction
+animal
 ```
 
----
-
-# 🎤 30-Second Interview Answer
-
-> **Transformers were introduced to overcome important limitations of recurrent sequence models. RNNs, LSTMs, and GRUs process sequence states sequentially, which limits training parallelism and creates long dependency paths. Classical attention solved the fixed-context bottleneck but was still attached to recurrent encoders and decoders. The Transformer made attention the core sequence-modeling mechanism, allowing positions to interact directly, shortening long-range dependency paths, and enabling much greater parallelism on modern accelerators.**
-
----
-
-# 🎤 Why Didn't LSTM Solve the Need for Transformers?
-
-> **LSTM improved memory and gradient flow but remained recurrent. Each hidden state still depends on the previous state, so sequence computation remains inherently sequential. Transformers address that architectural bottleneck by removing recurrence from the core sequence-processing mechanism.**
-
----
-
-# 🎤 Why Was Attention the Key Clue?
-
-> **Classical attention showed that a model could dynamically retrieve relevant information by directly comparing representations. Transformers generalized this idea from decoder-to-encoder retrieval to direct position-to-position interaction within a sequence through self-attention.**
-
----
-
-# 🎤 Did Transformers Make Everything Parallel?
-
-> **No. Transformer training allows much greater parallelism across sequence positions because recurrence is removed, but autoregressive inference still generates tokens sequentially. Full self-attention also introduces quadratic compute and memory growth with sequence length.**
-
----
-
-# 🚨 High-Yield Traps
-
-### ❌ Transformers were invented because attention did not work
-
-No.
-
-Attention worked extremely well.
-
-Transformers expanded its role.
-
----
-
-### ❌ LSTM solved the sequential-computation problem
-
-No.
-
-LSTM is still recurrent.
-
----
-
-### ❌ Transformer means no sequential inference
-
-No.
-
-Autoregressive generation remains sequential.
-
----
-
-### ❌ Self-attention is computationally free
-
-No.
-
-Full self-attention creates approximately `T²` interactions.
-
----
-
-### ❌ Transformer automatically knows token order
-
-No.
-
-Removing recurrence creates the need for explicit position information.
-
----
-
-### ❌ Transformer and LLM mean the same thing
-
-No.
-
-Transformer is an architecture.
-
----
-
-# 📐 Complexity / Architecture Card
-
-### RNN State
+receive more attention than:
 
 ```text
-h_t
-=
-f(x_t, h_(t-1))
+street
 ```
 
-### Distant RNN Dependency Path
+How can each token inspect the rest of the sentence and dynamically build a better representation of itself?
 
-```text
-O(T)
-```
+That is exactly what we will discover in the next lecture:
 
-### Full Self-Attention Pairwise Structure
-
-```text
-T × T
-```
-
-Conceptually:
-
-```text
-O(T²)
-```
-
-### Core Architectural Shift
-
-```text
-Recurrence
-↓
-Sequential state propagation
-```
-
-becomes:
-
-```text
-Self-Attention
-↓
-Direct position-to-position interaction
-```
-
----
-
-# ⚡ 10 Things to Know Cold
-
-1. RNN/LSTM/GRU sequence computation is recurrent.
-2. Recurrence limits sequence-level parallelism.
-3. LSTM improves memory but does not remove recurrence.
-4. Classical attention solves source accessibility but remains attached to RNNs.
-5. Attention demonstrated that direct representation interaction works.
-6. Self-attention allows positions within one sequence to interact directly.
-7. Direct interaction shortens long-range dependency paths.
-8. Removing recurrence improves training parallelism.
-9. Full self-attention introduces roughly `O(T²)` pairwise interactions.
-10. Transformers change architectural trade-offs; they do not eliminate all computational limitations.
-
----
-
-# 🧠 Final Mental Model
-
-The entire motivation can be remembered as:
-
-```text
-RNN
-↓
-Good sequence modeling
-but sequential
-
-LSTM / GRU
-↓
-Better memory
-but still sequential
-
-Attention
-↓
-Better source access
-but recurrence still remains
-
-Key Insight
-↓
-Direct representation interaction works
-
-New Question
-↓
-Why use recurrence at all?
-
-Self-Attention
-↓
-Positions directly interact
-
-Transformer
-↓
-Attention becomes the core
-sequence-modeling mechanism
-```
-
-Shortest version:
-
-# **Attention solved access. Transformer removed recurrence from the core sequence model.**
-
----
-
-# 🔗 Next Chapter
-
-We now understand **why** Transformers were needed.
-
-But we have not yet explained the mechanism that makes them possible.
-
-The next question is:
-
-> **How can one token dynamically retrieve information from other tokens in the same sequence?**
-
-That takes us to:
-
-# **02_Self_Attention**
-
-And we will derive it from first principles before introducing:
-
-```text
-Query
-Key
-Value
-```
+# 🚀 **Self-Attention**
